@@ -209,17 +209,19 @@ export default function Dashboard({ token, onLogout }) {
   />
 )}
 
-        {activeTab === "Career Paths" && (
-          <CareerPaths
-            token={token}
-            onLogout={onLogout}
-          />
-        )}
+   {activeTab === "Career Paths" && (
+  <CareerPaths
+    token={token}
+    onLogout={onLogout}
+    user={user}
+  />
+)}     
 
         {activeTab === "Skill Development" && (
           <SkillDevelopment
             token={token}
             onLogout={onLogout}
+             user={user}
           />
         )}
 

@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 
-export default function SkillDevelopment({ token, onLogout }) {
+export default function SkillDevelopment({
+  token,
+  onLogout,
+  user,
+}) {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -9,6 +13,8 @@ export default function SkillDevelopment({ token, onLogout }) {
   const [enrollingId, setEnrollingId] = useState(null);
   const [enrollMessage, setEnrollMessage] = useState("");
   const [enrollError, setEnrollError] = useState("");
+
+  const [recommendedOnly, setRecommendedOnly] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -28,8 +34,6 @@ export default function SkillDevelopment({ token, onLogout }) {
           }
         );
 
-        const data = await response.json();
-
         if (controller.signal.aborted) return;
 
         if (response.status === 401) {
@@ -37,8 +41,18 @@ export default function SkillDevelopment({ token, onLogout }) {
           return;
         }
 
+        const data = await response.json();
+
+        if (controller.signal.aborted) return;
+
         if (!response.ok) {
-          throw new Error(data.message || "Unable to load courses");
+          throw new Error(
+            data.message || "Unable to load courses"
+          );
+        }
+
+        if (!Array.isArray(data.courses)) {
+          throw new Error("Invalid course data received");
         }
 
         setCourses(data.courses);
@@ -63,6 +77,8 @@ export default function SkillDevelopment({ token, onLogout }) {
   }, [token, onLogout, attempt]);
 
   async function handleEnroll(courseId) {
+    if (enrollingId !== null) return;
+
     setEnrollingId(courseId);
     setEnrollMessage("");
     setEnrollError("");
@@ -88,7 +104,9 @@ export default function SkillDevelopment({ token, onLogout }) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Enrollment failed");
+        throw new Error(
+          data.message || "Enrollment failed"
+        );
       }
 
       setEnrollMessage(
@@ -105,21 +123,118 @@ export default function SkillDevelopment({ token, onLogout }) {
     }
   }
 
+  function normalizeSkill(value) {
+    return value.trim().toLowerCase();
+  }
+
+  function uniqueSkills(items) {
+    const list = Array.isArray(items) ? items : [];
+
+    return [
+      ...new Map(
+        list
+          .filter(
+            (skill) =>
+              typeof skill === "string" && skill.trim()
+          )
+          .map((skill) => [
+            normalizeSkill(skill),
+            skill.trim(),
+          ])
+      ).values(),
+    ];
+  }
+
+  const currentSkills = new Set(
+    uniqueSkills(user?.skills).map(normalizeSkill)
+  );
+
+  const hasProfileSkills = currentSkills.size > 0;
+
+  const rankedCourses = courses
+    .map((course) => {
+      const courseSkills = uniqueSkills(course.skills);
+
+      const newSkills = courseSkills.filter(
+        (skill) =>
+          !currentSkills.has(normalizeSkill(skill))
+      );
+
+      return {
+        ...course,
+        courseSkills,
+        newSkills,
+        newSkillRatio:
+          courseSkills.length > 0
+            ? newSkills.length / courseSkills.length
+            : 0,
+      };
+    })
+    .sort(
+      (a, b) =>
+        (hasProfileSkills
+          ? b.newSkillRatio - a.newSkillRatio
+          : 0) ||
+        a.title.localeCompare(b.title)
+    );
+
+  const visibleCourses =
+    recommendedOnly && hasProfileSkills
+      ? rankedCourses.filter(
+          (course) => course.newSkills.length > 0
+        )
+      : rankedCourses;
+
   return (
     <section className="cp-panel">
       <h2>Skill Development</h2>
 
-      {enrollMessage && <p role="status">{enrollMessage}</p>}
-      {enrollError && <p role="alert">{enrollError}</p>}
+      <p>
+        Explore courses to develop your career skills.
+        Courses with a higher share of skills missing from
+        your profile appear first.
+      </p>
 
-      <p>Explore courses to develop your career skills.</p>
+      {!hasProfileSkills ? (
+        <p>
+          Add your current skills in My Profile to
+          personalize recommendations.
+        </p>
+      ) : (
+        <label className="cp-course-filter">
+          <input
+            type="checkbox"
+            checked={recommendedOnly}
+            onChange={(event) =>
+              setRecommendedOnly(event.target.checked)
+            }
+          />
+          Show only courses with new skills
+        </label>
+      )}
 
-      {loading && <p role="status">Loading courses...</p>}
+      {enrollMessage && (
+        <p role="status">{enrollMessage}</p>
+      )}
+
+      {enrollError && (
+        <p role="alert">{enrollError}</p>
+      )}
+
+      {loading && (
+        <p role="status">Loading courses...</p>
+      )}
 
       {!loading && error && (
         <div>
           <p role="alert">{error}</p>
-          <button onClick={() => setAttempt((value) => value + 1)}>
+
+          <button
+            type="button"
+            onClick={() =>
+              setAttempt((value) => value + 1)
+            }
+          >
             Try again
           </button>
         </div>
@@ -129,26 +244,71 @@ export default function SkillDevelopment({ token, onLogout }) {
         <p>No courses have been added yet.</p>
       )}
 
+      {!loading &&
+        !error &&
+        courses.length > 0 &&
+        visibleCourses.length === 0 && (
+          <p>
+            No courses with new skills match this filter.
+          </p>
+        )}
+
       {!loading && !error && (
         <div className="cp-cards">
-          {courses.map((course) => (
-            <article className="cp-card" key={course._id}>
-              <span className="cp-course-level">{course.level}</span>
+          {visibleCourses.map((course) => (
+            <article
+              className="cp-card"
+              key={course._id}
+            >
+              <span className="cp-course-level">
+                {course.level}
+              </span>
 
               <h3>{course.title}</h3>
               <p>{course.description}</p>
 
               <h4>Skills you will develop</h4>
-              <ul>
-                {course.skills.map((skill, index) => (
-                  <li key={`${skill}-${index}`}>{skill}</li>
-                ))}
-              </ul>
+
+              {course.courseSkills.length > 0 ? (
+                <ul>
+                  {course.courseSkills.map((skill) => (
+                    <li key={normalizeSkill(skill)}>
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No course skills have been listed yet.</p>
+              )}
+
+              {hasProfileSkills &&
+                course.courseSkills.length > 0 && (
+                  <>
+                    <h4>New skills for you</h4>
+
+                    {course.newSkills.length > 0 ? (
+                      <ul>
+                        {course.newSkills.map((skill) => (
+                          <li key={normalizeSkill(skill)}>
+                            {skill}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>
+                        All listed course skills are already
+                        in your profile.
+                      </p>
+                    )}
+                  </>
+                )}
 
               <button
                 type="button"
                 disabled={enrollingId !== null}
-                onClick={() => handleEnroll(course._id)}
+                onClick={() =>
+                  handleEnroll(course._id)
+                }
               >
                 {enrollingId === course._id
                   ? "Enrolling..."

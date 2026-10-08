@@ -291,3 +291,21 @@
   opacity: 0.6;
   cursor: wait;
 }
+.cp-skill-progress {
+  width: 100%;
+  height: 12px;
+  accent-color: #4361e5;
+}
+.cp-course-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+  color: #52617a;
+}
+
+.cp-course-filter input {
+  width: 18px;
+  height: 18px;
+  accent-color: #4361e5;
+}
