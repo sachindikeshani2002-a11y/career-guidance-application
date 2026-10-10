@@ -5,6 +5,7 @@ import SkillDevelopment from "./SkillDevelopment";
 import MyProgress from "./MyProgress";
 import MyProfile from "./MyProfile";
 export default function Dashboard({ token, onLogout }) {
+const [targetCareer, setTargetCareer] = useState(null); 
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -214,16 +215,22 @@ export default function Dashboard({ token, onLogout }) {
     token={token}
     onLogout={onLogout}
     user={user}
+    onSelectCareer={(career) => {
+      setTargetCareer(career);
+      setActiveTab("Skill Development");
+    }}
   />
-)}     
+)}
 
-        {activeTab === "Skill Development" && (
-          <SkillDevelopment
-            token={token}
-            onLogout={onLogout}
-             user={user}
-          />
-        )}
+{activeTab === "Skill Development" && (
+  <SkillDevelopment
+    token={token}
+    onLogout={onLogout}
+    user={user}
+    targetCareer={targetCareer}
+    onClearCareer={() => setTargetCareer(null)}
+  />
+)}
 
         {activeTab === "My Progress" && (
           <MyProgress

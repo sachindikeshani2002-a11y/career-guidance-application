@@ -4,6 +4,8 @@ export default function SkillDevelopment({
   token,
   onLogout,
   user,
+  targetCareer,
+  onClearCareer,
 }) {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -178,17 +180,50 @@ export default function SkillDevelopment({
         a.title.localeCompare(b.title)
     );
 
-  const visibleCourses =
-    recommendedOnly && hasProfileSkills
-      ? rankedCourses.filter(
-          (course) => course.newSkills.length > 0
-        )
-      : rankedCourses;
+  const missingCareerSkills = uniqueSkills(
+  targetCareer?.skills
+).filter(
+  (skill) => !currentSkills.has(normalizeSkill(skill))
+);
+
+const missingCareerSkillSet = new Set(
+  missingCareerSkills.map(normalizeSkill)
+);
+
+const careerCourses = targetCareer
+  ? rankedCourses.filter((course) =>
+      course.newSkills.some((skill) =>
+        missingCareerSkillSet.has(normalizeSkill(skill))
+      )
+    )
+  : rankedCourses;
+
+const visibleCourses =
+  recommendedOnly && hasProfileSkills
+    ? careerCourses.filter(
+        (course) => course.newSkills.length > 0
+      )
+    : careerCourses;
 
   return (
     <section className="cp-panel">
       <h2>Skill Development</h2>
+{targetCareer && (
+  <div className="cp-panel">
+    <h3>Target career: {targetCareer.title}</h3>
 
+    <p>
+      Skills to develop:{" "}
+      {missingCareerSkills.length > 0
+        ? missingCareerSkills.join(", ")
+        : "All listed career skills match your profile."}
+    </p>
+
+    <button type="button" onClick={onClearCareer}>
+      Show all courses
+    </button>
+  </div>
+)}
       <p>
         Explore courses to develop your career skills.
         Courses with a higher share of skills missing from
@@ -241,7 +276,9 @@ export default function SkillDevelopment({
       )}
 
       {!loading && !error && courses.length === 0 && (
-        <p>No courses have been added yet.</p>
+        <p>  {targetCareer
+    ? "No courses currently cover the missing skills for this career. Select Show all courses to browse."
+    : "No courses with new skills match this filter."}</p>
       )}
 
       {!loading &&

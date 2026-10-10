@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function CareerPaths({ token, onLogout, user }) {
+export default function CareerPaths({ token, onLogout, user, onSelectCareer }) {
   const [careers, setCareers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -184,6 +184,12 @@ export default function CareerPaths({ token, onLogout, user }) {
                   <p>All listed skills match your profile.</p>
                 )
               )}
+              <button
+  type="button"
+  onClick={() => onSelectCareer(career)}
+>
+  Find courses for this career
+</button>
             </article>
           ))}
         </div>
