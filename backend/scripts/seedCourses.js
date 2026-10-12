@@ -29,6 +29,41 @@ const courses = [
     level: "Beginner",
     skills: ["Figma", "Wireframing", "Prototyping"],
   },
+  {
+    title: "Git and Version Control",
+    description:
+      "Learn repositories, commits, branches and merging.",
+    level: "Beginner",
+    skills: ["Git"],
+  },
+  {
+    title: "Database Fundamentals",
+    description:
+      "Learn database concepts, data modeling and basic SQL queries.",
+    level: "Beginner",
+    skills: ["Databases", "SQL"],
+  },
+  {
+    title: "Statistics for Data Analysis",
+    description:
+      "Learn descriptive statistics, probability and interpreting data.",
+    level: "Beginner",
+    skills: ["Statistics"],
+  },
+  {
+    title: "Data Visualization Basics",
+    description:
+      "Learn how to choose charts and communicate data clearly.",
+    level: "Beginner",
+    skills: ["Data Visualization"],
+  },
+  {
+    title: "User Research Fundamentals",
+    description:
+      "Learn interviews, surveys and identifying user needs.",
+    level: "Beginner",
+    skills: ["User Research"],
+  },
 ];
 
 async function seedCourses() {
