@@ -309,3 +309,27 @@
   height: 18px;
   accent-color: #4361e5;
 }
+.cp-lessons {
+  margin-top: 16px;
+  border-top: 1px solid #e6eaf2;
+  padding-top: 12px;
+}
+
+.cp-lesson {
+  margin-top: 18px;
+}
+
+.cp-lesson h4 {
+  margin-bottom: 8px;
+}
+
+.cp-lesson pre {
+  padding: 14px;
+  border-radius: 8px;
+  background: #f2f4fa;
+  color: #243454;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.7;
+}

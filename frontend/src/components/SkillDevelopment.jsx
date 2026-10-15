@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import CourseLessons from "./CourseLessons";
 export default function SkillDevelopment({
   token,
   onLogout,
@@ -351,6 +351,7 @@ const visibleCourses =
                   ? "Enrolling..."
                   : "Enroll"}
               </button>
+              <CourseLessons courseTitle={course.title} />
             </article>
           ))}
         </div>
