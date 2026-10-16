@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import CourseLessons from "./CourseLessons";
 const API_URL = "http://localhost:5001/api/enrollments";
 
 export default function MyProgress({ token, onLogout }) {
@@ -138,6 +138,9 @@ export default function MyProgress({ token, onLogout }) {
             {enrollments.map((item) => (
               <article className="cp-card" key={item._id}>
                 <h3>{item.course?.title || "Course unavailable"}</h3>
+                {item.course && (
+  <CourseLessons courseTitle={item.course.title} />
+)}
                 <p>{item.course?.description}</p>
                 <p>
                   <strong>Status:</strong> {item.status}
