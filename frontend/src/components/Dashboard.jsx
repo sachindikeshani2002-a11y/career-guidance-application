@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import "./Dashboard.css";
+
 import CareerPaths from "./CareerPaths";
 import SkillDevelopment from "./SkillDevelopment";
 import MyProgress from "./MyProgress";
 import MyProfile from "./MyProfile";
+import ProgressSummary from "./ProgressSummary";
+
 export default function Dashboard({ token, onLogout }) {
-const [targetCareer, setTargetCareer] = useState(null); 
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [attempt, setAttempt] = useState(0);
   const [activeTab, setActiveTab] = useState("Overview");
+  const [targetCareer, setTargetCareer] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -31,8 +34,6 @@ const [targetCareer, setTargetCareer] = useState(null);
           }
         );
 
-        const data = await response.json();
-
         if (controller.signal.aborted) return;
 
         if (response.status === 401) {
@@ -40,10 +41,18 @@ const [targetCareer, setTargetCareer] = useState(null);
           return;
         }
 
+        const data = await response.json();
+
+        if (controller.signal.aborted) return;
+
         if (!response.ok) {
           throw new Error(
             data.message || "Unable to load your account"
           );
+        }
+
+        if (!data.user) {
+          throw new Error("User information was not received");
         }
 
         setUser(data.user);
@@ -66,6 +75,11 @@ const [targetCareer, setTargetCareer] = useState(null);
 
     return () => controller.abort();
   }, [token, onLogout, attempt]);
+
+  function handleSelectCareer(career) {
+    setTargetCareer(career);
+    setActiveTab("Skill Development");
+  }
 
   if (loading) {
     return (
@@ -107,15 +121,15 @@ const [targetCareer, setTargetCareer] = useState(null);
   const overviewCards = [
     {
       title: "Career Paths",
-      text: "Discover careers and their required skills.",
+      text: "Compare your skills with career requirements and find skills to develop.",
     },
     {
       title: "Skill Development",
-      text: "Explore learning opportunities to build your skills.",
+      text: "Explore courses and find learning opportunities for your target career.",
     },
     {
       title: "My Progress",
-      text: "Keep track of your learning journey.",
+      text: "View your enrolled courses, read lessons and track completed courses.",
     },
   ];
 
@@ -167,6 +181,7 @@ const [targetCareer, setTargetCareer] = useState(null);
           <>
             <section className="cp-banner">
               <h2>Build your path to a better future</h2>
+
               <p>
                 Start with your profile, explore career paths,
                 and develop the skills you need.
@@ -179,6 +194,30 @@ const [targetCareer, setTargetCareer] = useState(null);
                 View my profile
               </button>
             </section>
+
+            <ProgressSummary
+              token={token}
+              onLogout={onLogout}
+            />
+
+            {targetCareer && (
+              <section
+                className="cp-panel"
+                style={{ marginTop: "20px" }}
+              >
+                <h3>Current target career</h3>
+                <p>{targetCareer.title}</p>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setActiveTab("Skill Development")
+                  }
+                >
+                  Explore related courses
+                </button>
+              </section>
+            )}
 
             <section className="cp-cards">
               {overviewCards.map((item) => (
@@ -201,36 +240,33 @@ const [targetCareer, setTargetCareer] = useState(null);
           </>
         )}
 
-       {activeTab === "My Profile" && (
-  <MyProfile
-    user={user}
-    token={token}
-    onLogout={onLogout}
-    onSaved={setUser}
-  />
-)}
+        {activeTab === "My Profile" && (
+          <MyProfile
+            user={user}
+            token={token}
+            onLogout={onLogout}
+            onSaved={setUser}
+          />
+        )}
 
-   {activeTab === "Career Paths" && (
-  <CareerPaths
-    token={token}
-    onLogout={onLogout}
-    user={user}
-    onSelectCareer={(career) => {
-      setTargetCareer(career);
-      setActiveTab("Skill Development");
-    }}
-  />
-)}
+        {activeTab === "Career Paths" && (
+          <CareerPaths
+            token={token}
+            onLogout={onLogout}
+            user={user}
+            onSelectCareer={handleSelectCareer}
+          />
+        )}
 
-{activeTab === "Skill Development" && (
-  <SkillDevelopment
-    token={token}
-    onLogout={onLogout}
-    user={user}
-    targetCareer={targetCareer}
-    onClearCareer={() => setTargetCareer(null)}
-  />
-)}
+        {activeTab === "Skill Development" && (
+          <SkillDevelopment
+            token={token}
+            onLogout={onLogout}
+            user={user}
+            targetCareer={targetCareer}
+            onClearCareer={() => setTargetCareer(null)}
+          />
+        )}
 
         {activeTab === "My Progress" && (
           <MyProgress
