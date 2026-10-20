@@ -333,3 +333,18 @@
   font-size: 13px;
   line-height: 1.7;
 }
+.cp-card .cp-stat-number {
+  margin: 12px 0 0;
+  font-size: 36px;
+  font-weight: 700;
+  color: #4361e5;
+}
+
+.cp-summary-progress {
+  margin-top: 20px;
+}
+.cp-card button:disabled {
+  color: #68758c;
+  cursor: not-allowed;
+  opacity: 0.7;
+}

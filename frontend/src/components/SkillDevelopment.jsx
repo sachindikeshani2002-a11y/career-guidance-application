@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CourseLessons from "./CourseLessons";
+
 export default function SkillDevelopment({
   token,
   onLogout,
@@ -8,6 +9,8 @@ export default function SkillDevelopment({
   onClearCareer,
 }) {
   const [courses, setCourses] = useState([]);
+  const [enrolledCourseIds, setEnrolledCourseIds] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [attempt, setAttempt] = useState(0);
@@ -24,40 +27,72 @@ export default function SkillDevelopment({
     async function loadCourses() {
       setLoading(true);
       setError("");
+      setEnrollMessage("");
+      setEnrollError("");
 
       try {
-        const response = await fetch(
-          "http://localhost:5001/api/courses",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            signal: controller.signal,
-          }
-        );
+        const options = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          signal: controller.signal,
+        };
+
+        const [courseResponse, enrollmentResponse] =
+          await Promise.all([
+            fetch("http://localhost:5001/api/courses", options),
+            fetch("http://localhost:5001/api/enrollments", options),
+          ]);
 
         if (controller.signal.aborted) return;
 
-        if (response.status === 401) {
+        if (
+          courseResponse.status === 401 ||
+          enrollmentResponse.status === 401
+        ) {
           onLogout();
           return;
         }
 
-        const data = await response.json();
+        const [courseData, enrollmentData] = await Promise.all([
+          courseResponse.json(),
+          enrollmentResponse.json(),
+        ]);
 
         if (controller.signal.aborted) return;
 
-        if (!response.ok) {
+        if (!courseResponse.ok) {
           throw new Error(
-            data.message || "Unable to load courses"
+            courseData.message || "Unable to load courses"
           );
         }
 
-        if (!Array.isArray(data.courses)) {
-          throw new Error("Invalid course data received");
+        if (!enrollmentResponse.ok) {
+          throw new Error(
+            enrollmentData.message || "Unable to load enrollments"
+          );
         }
 
-        setCourses(data.courses);
+        if (
+          !Array.isArray(courseData.courses) ||
+          !Array.isArray(enrollmentData.enrollments)
+        ) {
+          throw new Error(
+            "Invalid course or enrollment data received"
+          );
+        }
+
+        setCourses(courseData.courses);
+
+        const enrolledIds = enrollmentData.enrollments
+          .map((item) =>
+            typeof item.course === "string"
+              ? item.course
+              : item.course?._id
+          )
+          .filter(Boolean);
+
+        setEnrolledCourseIds([...new Set(enrolledIds)]);
       } catch (err) {
         if (controller.signal.aborted) return;
 
@@ -79,7 +114,12 @@ export default function SkillDevelopment({
   }, [token, onLogout, attempt]);
 
   async function handleEnroll(courseId) {
-    if (enrollingId !== null) return;
+    if (
+      enrollingId !== null ||
+      enrolledCourseIds.includes(courseId)
+    ) {
+      return;
+    }
 
     setEnrollingId(courseId);
     setEnrollMessage("");
@@ -104,6 +144,21 @@ export default function SkillDevelopment({
       }
 
       const data = await response.json();
+
+      if (response.ok || response.status === 409) {
+        setEnrolledCourseIds((previous) =>
+          previous.includes(courseId)
+            ? previous
+            : [...previous, courseId]
+        );
+      }
+
+      if (response.status === 409) {
+        setEnrollMessage(
+          "You are already enrolled in this course. View it in My Progress."
+        );
+        return;
+      }
 
       if (!response.ok) {
         throw new Error(
@@ -153,13 +208,22 @@ export default function SkillDevelopment({
 
   const hasProfileSkills = currentSkills.size > 0;
 
+  const missingCareerSkills = uniqueSkills(
+    targetCareer?.skills
+  ).filter(
+    (skill) => !currentSkills.has(normalizeSkill(skill))
+  );
+
+  const missingCareerSkillSet = new Set(
+    missingCareerSkills.map(normalizeSkill)
+  );
+
   const rankedCourses = courses
     .map((course) => {
       const courseSkills = uniqueSkills(course.skills);
 
       const newSkills = courseSkills.filter(
-        (skill) =>
-          !currentSkills.has(normalizeSkill(skill))
+        (skill) => !currentSkills.has(normalizeSkill(skill))
       );
 
       return {
@@ -180,50 +244,48 @@ export default function SkillDevelopment({
         a.title.localeCompare(b.title)
     );
 
-  const missingCareerSkills = uniqueSkills(
-  targetCareer?.skills
-).filter(
-  (skill) => !currentSkills.has(normalizeSkill(skill))
-);
-
-const missingCareerSkillSet = new Set(
-  missingCareerSkills.map(normalizeSkill)
-);
-
-const careerCourses = targetCareer
-  ? rankedCourses.filter((course) =>
-      course.newSkills.some((skill) =>
-        missingCareerSkillSet.has(normalizeSkill(skill))
+  const careerCourses = targetCareer
+    ? rankedCourses.filter((course) =>
+        course.newSkills.some((skill) =>
+          missingCareerSkillSet.has(normalizeSkill(skill))
+        )
       )
-    )
-  : rankedCourses;
+    : rankedCourses;
 
-const visibleCourses =
-  recommendedOnly && hasProfileSkills
-    ? careerCourses.filter(
-        (course) => course.newSkills.length > 0
-      )
-    : careerCourses;
+  const visibleCourses =
+    recommendedOnly && hasProfileSkills
+      ? careerCourses.filter(
+          (course) => course.newSkills.length > 0
+        )
+      : careerCourses;
 
   return (
     <section className="cp-panel">
       <h2>Skill Development</h2>
-{targetCareer && (
-  <div className="cp-panel">
-    <h3>Target career: {targetCareer.title}</h3>
 
-    <p>
-      Skills to develop:{" "}
-      {missingCareerSkills.length > 0
-        ? missingCareerSkills.join(", ")
-        : "All listed career skills match your profile."}
-    </p>
+      {targetCareer && (
+        <div className="cp-panel">
+          <h3>Target career: {targetCareer.title}</h3>
 
-    <button type="button" onClick={onClearCareer}>
-      Show all courses
-    </button>
-  </div>
-)}
+          <p>
+            Skills to develop:{" "}
+            {missingCareerSkills.length > 0
+              ? missingCareerSkills.join(", ")
+              : "All listed career skills match your profile."}
+          </p>
+
+          <button
+            type="button"
+            onClick={() => {
+              setRecommendedOnly(false);
+              onClearCareer();
+            }}
+          >
+            Show all courses
+          </button>
+        </div>
+      )}
+
       <p>
         Explore courses to develop your career skills.
         Courses with a higher share of skills missing from
@@ -266,9 +328,7 @@ const visibleCourses =
 
           <button
             type="button"
-            onClick={() =>
-              setAttempt((value) => value + 1)
-            }
+            onClick={() => setAttempt((value) => value + 1)}
           >
             Try again
           </button>
@@ -276,9 +336,7 @@ const visibleCourses =
       )}
 
       {!loading && !error && courses.length === 0 && (
-        <p>  {targetCareer
-    ? "No courses currently cover the missing skills for this career. Select Show all courses to browse."
-    : "No courses with new skills match this filter."}</p>
+        <p>No courses have been added yet.</p>
       )}
 
       {!loading &&
@@ -286,74 +344,86 @@ const visibleCourses =
         courses.length > 0 &&
         visibleCourses.length === 0 && (
           <p>
-            No courses with new skills match this filter.
+            {targetCareer
+              ? missingCareerSkills.length === 0
+                ? "You already list all skills for this career. Select Show all courses to browse."
+                : "No courses currently cover the missing skills for this career. Select Show all courses to browse."
+              : "No courses with new skills match this filter."}
           </p>
         )}
 
       {!loading && !error && (
         <div className="cp-cards">
-          {visibleCourses.map((course) => (
-            <article
-              className="cp-card"
-              key={course._id}
-            >
-              <span className="cp-course-level">
-                {course.level}
-              </span>
+          {visibleCourses.map((course) => {
+            const isEnrolled =
+              enrolledCourseIds.includes(course._id);
 
-              <h3>{course.title}</h3>
-              <p>{course.description}</p>
+            return (
+              <article
+                className="cp-card"
+                key={course._id}
+              >
+                <span className="cp-course-level">
+                  {course.level}
+                </span>
 
-              <h4>Skills you will develop</h4>
+                <h3>{course.title}</h3>
+                <p>{course.description}</p>
 
-              {course.courseSkills.length > 0 ? (
-                <ul>
-                  {course.courseSkills.map((skill) => (
-                    <li key={normalizeSkill(skill)}>
-                      {skill}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No course skills have been listed yet.</p>
-              )}
+                <h4>Skills you will develop</h4>
 
-              {hasProfileSkills &&
-                course.courseSkills.length > 0 && (
-                  <>
-                    <h4>New skills for you</h4>
-
-                    {course.newSkills.length > 0 ? (
-                      <ul>
-                        {course.newSkills.map((skill) => (
-                          <li key={normalizeSkill(skill)}>
-                            {skill}
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p>
-                        All listed course skills are already
-                        in your profile.
-                      </p>
-                    )}
-                  </>
+                {course.courseSkills.length > 0 ? (
+                  <ul>
+                    {course.courseSkills.map((skill) => (
+                      <li key={normalizeSkill(skill)}>
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No course skills have been listed yet.</p>
                 )}
 
-              <button
-                type="button"
-                disabled={enrollingId !== null}
-                onClick={() =>
-                  handleEnroll(course._id)
-                }
-              >
-                {enrollingId === course._id
-                  ? "Enrolling..."
-                  : "Enroll"}
-              </button>
-              <CourseLessons courseTitle={course.title} />
-            </article>
-          ))}
+                {hasProfileSkills &&
+                  course.courseSkills.length > 0 && (
+                    <>
+                      <h4>New skills for you</h4>
+
+                      {course.newSkills.length > 0 ? (
+                        <ul>
+                          {course.newSkills.map((skill) => (
+                            <li key={normalizeSkill(skill)}>
+                              {skill}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p>
+                          All listed course skills are already
+                          in your profile.
+                        </p>
+                      )}
+                    </>
+                  )}
+
+                <button
+                  type="button"
+                  disabled={
+                    enrollingId !== null || isEnrolled
+                  }
+                  onClick={() => handleEnroll(course._id)}
+                >
+                  {isEnrolled
+                    ? "Enrolled"
+                    : enrollingId === course._id
+                      ? "Enrolling..."
+                      : "Enroll"}
+                </button>
+
+                <CourseLessons courseTitle={course.title} />
+              </article>
+            );
+          })}
         </div>
       )}
     </section>
