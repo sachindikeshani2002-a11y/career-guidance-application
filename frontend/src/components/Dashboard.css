@@ -348,3 +348,46 @@
   cursor: not-allowed;
   opacity: 0.7;
 }
+.cp-course-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.cp-course-controls > div {
+  display: grid;
+  gap: 8px;
+}
+
+.cp-course-controls > div:first-child {
+  flex: 1 1 240px;
+}
+
+.cp-course-controls label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.cp-course-controls input,
+.cp-course-controls select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dbe1ed;
+  border-radius: 8px;
+  background: #fff;
+  color: #17233d;
+  font: inherit;
+}
+
+.cp-course-controls button {
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 8px;
+  background: #edf1ff;
+  color: #3655d5;
+  font-weight: 600;
+  cursor: pointer;
+}

@@ -20,6 +20,8 @@ export default function SkillDevelopment({
   const [enrollError, setEnrollError] = useState("");
 
   const [recommendedOnly, setRecommendedOnly] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [levelFilter, setLevelFilter] = useState("All");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -161,9 +163,7 @@ export default function SkillDevelopment({
       }
 
       if (!response.ok) {
-        throw new Error(
-          data.message || "Enrollment failed"
-        );
+        throw new Error(data.message || "Enrollment failed");
       }
 
       setEnrollMessage(
@@ -200,6 +200,12 @@ export default function SkillDevelopment({
           ])
       ).values(),
     ];
+  }
+
+  function resetFilters() {
+    setSearchText("");
+    setLevelFilter("All");
+    setRecommendedOnly(false);
   }
 
   const currentSkills = new Set(
@@ -252,16 +258,72 @@ export default function SkillDevelopment({
       )
     : rankedCourses;
 
-  const visibleCourses =
+  const skillFilteredCourses =
     recommendedOnly && hasProfileSkills
       ? careerCourses.filter(
           (course) => course.newSkills.length > 0
         )
       : careerCourses;
 
+  const query = searchText.trim().toLowerCase();
+
+  const visibleCourses = skillFilteredCourses.filter((course) => {
+    const matchesSearch =
+      !query ||
+      [
+        course.title,
+        course.description,
+        ...course.courseSkills,
+      ].some((value) =>
+        String(value || "").toLowerCase().includes(query)
+      );
+
+    const matchesLevel =
+      levelFilter === "All" || course.level === levelFilter;
+
+    return matchesSearch && matchesLevel;
+  });
+
   return (
     <section className="cp-panel">
       <h2>Skill Development</h2>
+
+      <div className="cp-course-controls">
+        <div>
+          <label htmlFor="course-search">Search courses</label>
+
+          <input
+            id="course-search"
+            type="search"
+            placeholder="Search title, description or skill..."
+            value={searchText}
+            onChange={(event) =>
+              setSearchText(event.target.value)
+            }
+          />
+        </div>
+
+        <div>
+          <label htmlFor="course-level">Level</label>
+
+          <select
+            id="course-level"
+            value={levelFilter}
+            onChange={(event) =>
+              setLevelFilter(event.target.value)
+            }
+          >
+            <option value="All">All levels</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+        </div>
+
+        <button type="button" onClick={resetFilters}>
+          Reset filters
+        </button>
+      </div>
 
       {targetCareer && (
         <div className="cp-panel">
@@ -277,7 +339,7 @@ export default function SkillDevelopment({
           <button
             type="button"
             onClick={() => {
-              setRecommendedOnly(false);
+              resetFilters();
               onClearCareer();
             }}
           >
@@ -335,96 +397,99 @@ export default function SkillDevelopment({
         </div>
       )}
 
-      {!loading && !error && courses.length === 0 && (
-        <p>No courses have been added yet.</p>
-      )}
-
-      {!loading &&
-        !error &&
-        courses.length > 0 &&
-        visibleCourses.length === 0 && (
-          <p>
-            {targetCareer
-              ? missingCareerSkills.length === 0
-                ? "You already list all skills for this career. Select Show all courses to browse."
-                : "No courses currently cover the missing skills for this career. Select Show all courses to browse."
-              : "No courses with new skills match this filter."}
-          </p>
-        )}
-
       {!loading && !error && (
-        <div className="cp-cards">
-          {visibleCourses.map((course) => {
-            const isEnrolled =
-              enrolledCourseIds.includes(course._id);
+        <>
+          <p role="status">
+            Showing {visibleCourses.length} of {courses.length} courses
+          </p>
 
-            return (
-              <article
-                className="cp-card"
-                key={course._id}
-              >
-                <span className="cp-course-level">
-                  {course.level}
-                </span>
+          {courses.length === 0 && (
+            <p>No courses have been added yet.</p>
+          )}
 
-                <h3>{course.title}</h3>
-                <p>{course.description}</p>
+          {courses.length > 0 && visibleCourses.length === 0 && (
+            <p>
+              No courses match the current filters.
+              Try resetting filters
+              {targetCareer
+                ? " or clearing your target career."
+                : "."}
+            </p>
+          )}
 
-                <h4>Skills you will develop</h4>
+          <div className="cp-cards">
+            {visibleCourses.map((course) => {
+              const isEnrolled =
+                enrolledCourseIds.includes(course._id);
 
-                {course.courseSkills.length > 0 ? (
-                  <ul>
-                    {course.courseSkills.map((skill) => (
-                      <li key={normalizeSkill(skill)}>
-                        {skill}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>No course skills have been listed yet.</p>
-                )}
+              return (
+                <article
+                  className="cp-card"
+                  key={course._id}
+                >
+                  <span className="cp-course-level">
+                    {course.level}
+                  </span>
 
-                {hasProfileSkills &&
-                  course.courseSkills.length > 0 && (
-                    <>
-                      <h4>New skills for you</h4>
+                  <h3>{course.title}</h3>
+                  <p>{course.description}</p>
 
-                      {course.newSkills.length > 0 ? (
-                        <ul>
-                          {course.newSkills.map((skill) => (
-                            <li key={normalizeSkill(skill)}>
-                              {skill}
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <p>
-                          All listed course skills are already
-                          in your profile.
-                        </p>
-                      )}
-                    </>
+                  <h4>Skills you will develop</h4>
+
+                  {course.courseSkills.length > 0 ? (
+                    <ul>
+                      {course.courseSkills.map((skill) => (
+                        <li key={normalizeSkill(skill)}>
+                          {skill}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>No course skills have been listed yet.</p>
                   )}
 
-                <button
-                  type="button"
-                  disabled={
-                    enrollingId !== null || isEnrolled
-                  }
-                  onClick={() => handleEnroll(course._id)}
-                >
-                  {isEnrolled
-                    ? "Enrolled"
-                    : enrollingId === course._id
-                      ? "Enrolling..."
-                      : "Enroll"}
-                </button>
+                  {hasProfileSkills &&
+                    course.courseSkills.length > 0 && (
+                      <>
+                        <h4>New skills for you</h4>
 
-                <CourseLessons courseTitle={course.title} />
-              </article>
-            );
-          })}
-        </div>
+                        {course.newSkills.length > 0 ? (
+                          <ul>
+                            {course.newSkills.map((skill) => (
+                              <li key={normalizeSkill(skill)}>
+                                {skill}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p>
+                            All listed course skills are already
+                            in your profile.
+                          </p>
+                        )}
+                      </>
+                    )}
+
+                  <button
+                    type="button"
+                    disabled={
+                      enrollingId !== null || isEnrolled
+                    }
+                    onClick={() => handleEnroll(course._id)}
+                  >
+                    {isEnrolled
+                      ? "Enrolled"
+                      : enrollingId === course._id
+                        ? "Enrolling..."
+                        : "Enroll"}
+                  </button>
+
+                  <CourseLessons courseTitle={course.title} />
+                </article>
+              );
+            })}
+          </div>
+        </>
       )}
     </section>
   );
