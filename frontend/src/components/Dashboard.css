@@ -391,3 +391,26 @@
   font-weight: 600;
   cursor: pointer;
 }
+.cp-progress-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.cp-progress-filters button {
+  padding: 10px 18px;
+  border: 1px solid #dbe1ed;
+  border-radius: 8px;
+  background: #fff;
+  color: #52617a;
+  font: inherit;
+  cursor: pointer;
+}
+
+.cp-progress-filters button.active {
+  border-color: #4361e5;
+  background: #edf1ff;
+  color: #3655d5;
+  font-weight: 700;
+}
