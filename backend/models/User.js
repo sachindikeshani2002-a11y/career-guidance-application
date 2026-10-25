@@ -33,6 +33,11 @@ skills: {
   type: [String],
   default: [],
 },
+targetCareer: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "Career",
+  default: null,
+},
   },
   {
     timestamps: true,

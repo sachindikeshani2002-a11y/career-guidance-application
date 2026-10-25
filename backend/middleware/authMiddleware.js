@@ -36,9 +36,9 @@ async function authMiddleware(req, res, next) {
   }
 
   try {
-    const user = await User.findById(payload.sub).select(
-      "_id name email role interests skills"
-    );
+   const user = await User.findById(payload.sub)
+  .select("_id name email role interests skills targetCareer")
+  .populate("targetCareer", "title description skills");
 
     if (!user) {
       return res.status(401).json({

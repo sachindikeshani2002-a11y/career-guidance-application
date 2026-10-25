@@ -12,8 +12,11 @@ export default function Dashboard({ token, onLogout }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [attempt, setAttempt] = useState(0);
+
   const [activeTab, setActiveTab] = useState("Overview");
   const [targetCareer, setTargetCareer] = useState(null);
+  const [savingCareer, setSavingCareer] = useState(false);
+  const [careerError, setCareerError] = useState("");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -22,6 +25,7 @@ export default function Dashboard({ token, onLogout }) {
       setLoading(true);
       setError("");
       setUser(null);
+      setTargetCareer(null);
 
       try {
         const response = await fetch(
@@ -52,10 +56,13 @@ export default function Dashboard({ token, onLogout }) {
         }
 
         if (!data.user) {
-          throw new Error("User information was not received");
+          throw new Error(
+            "User information was not received"
+          );
         }
 
         setUser(data.user);
+        setTargetCareer(data.user.targetCareer || null);
       } catch (err) {
         if (controller.signal.aborted) return;
 
@@ -76,9 +83,86 @@ export default function Dashboard({ token, onLogout }) {
     return () => controller.abort();
   }, [token, onLogout, attempt]);
 
-  function handleSelectCareer(career) {
-    setTargetCareer(career);
-    setActiveTab("Skill Development");
+  async function saveTargetCareer(careerId) {
+    if (savingCareer) return false;
+
+    setSavingCareer(true);
+    setCareerError("");
+
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/auth/target-career",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ careerId }),
+        }
+      );
+
+      if (response.status === 401) {
+        onLogout();
+        return false;
+      }
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Unable to save your target career"
+        );
+      }
+
+      if (!data.user) {
+        throw new Error(
+          "Updated user information was not received"
+        );
+      }
+
+      const savedCareer = data.user.targetCareer || null;
+
+      setTargetCareer(savedCareer);
+
+      setUser((previous) =>
+        previous
+          ? {
+              ...previous,
+              targetCareer: savedCareer,
+            }
+          : previous
+      );
+
+      return true;
+    } catch (err) {
+      setCareerError(
+        err instanceof TypeError
+          ? "Cannot connect to the backend. Check port 5001."
+          : err.message
+      );
+
+      return false;
+    } finally {
+      setSavingCareer(false);
+    }
+  }
+
+  async function handleSelectCareer(career) {
+    const saved = await saveTargetCareer(career._id);
+
+    if (saved) {
+      setActiveTab("Skill Development");
+    }
+  }
+
+  async function handleClearCareer() {
+    await saveTargetCareer(null);
+  }
+
+  function handleProfileSaved(updatedUser) {
+    setUser(updatedUser);
+    setTargetCareer(updatedUser.targetCareer || null);
   }
 
   if (loading) {
@@ -133,6 +217,13 @@ export default function Dashboard({ token, onLogout }) {
     },
   ];
 
+  const fieldsetStyle = {
+    border: 0,
+    padding: 0,
+    margin: 0,
+    minWidth: 0,
+  };
+
   return (
     <div className="cp-dashboard">
       <aside className="cp-sidebar">
@@ -149,6 +240,7 @@ export default function Dashboard({ token, onLogout }) {
                 activeTab === tab ? "page" : undefined
               }
               onClick={() => setActiveTab(tab)}
+              disabled={savingCareer}
             >
               {tab}
             </button>
@@ -167,8 +259,12 @@ export default function Dashboard({ token, onLogout }) {
       <main className="cp-main">
         <header className="cp-header">
           <div>
-            <p className="cp-eyebrow">STUDENT DASHBOARD</p>
+            <p className="cp-eyebrow">
+              STUDENT DASHBOARD
+            </p>
+
             <h1>Welcome, {user.name}!</h1>
+
             <p>
               Explore your interests and plan your next step.
             </p>
@@ -176,6 +272,16 @@ export default function Dashboard({ token, onLogout }) {
 
           <span className="cp-role">{user.role}</span>
         </header>
+
+        {savingCareer && (
+          <p role="status">
+            Saving your target career...
+          </p>
+        )}
+
+        {careerError && (
+          <p role="alert">{careerError}</p>
+        )}
 
         {activeTab === "Overview" && (
           <>
@@ -245,27 +351,41 @@ export default function Dashboard({ token, onLogout }) {
             user={user}
             token={token}
             onLogout={onLogout}
-            onSaved={setUser}
+            onSaved={handleProfileSaved}
           />
         )}
 
         {activeTab === "Career Paths" && (
-          <CareerPaths
-            token={token}
-            onLogout={onLogout}
-            user={user}
-            onSelectCareer={handleSelectCareer}
-          />
+          <div aria-busy={savingCareer}>
+            <fieldset
+              disabled={savingCareer}
+              style={fieldsetStyle}
+            >
+              <CareerPaths
+                token={token}
+                onLogout={onLogout}
+                user={user}
+                onSelectCareer={handleSelectCareer}
+              />
+            </fieldset>
+          </div>
         )}
 
         {activeTab === "Skill Development" && (
-          <SkillDevelopment
-            token={token}
-            onLogout={onLogout}
-            user={user}
-            targetCareer={targetCareer}
-            onClearCareer={() => setTargetCareer(null)}
-          />
+          <div aria-busy={savingCareer}>
+            <fieldset
+              disabled={savingCareer}
+              style={fieldsetStyle}
+            >
+              <SkillDevelopment
+                token={token}
+                onLogout={onLogout}
+                user={user}
+                targetCareer={targetCareer}
+                onClearCareer={handleClearCareer}
+              />
+            </fieldset>
+          </div>
         )}
 
         {activeTab === "My Progress" && (

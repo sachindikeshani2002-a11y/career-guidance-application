@@ -1,8 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
 const User = require("../models/User");
+const Career = require("../models/Career");
 const authMiddleware = require("../middleware/authMiddleware");
+
 const router = express.Router();
 
 function publicUser(user) {
@@ -11,20 +14,48 @@ function publicUser(user) {
     name: user.name,
     email: user.email,
     role: user.role,
-     interests: user.interests || [],
+    interests: user.interests || [],
     skills: user.skills || [],
+    targetCareer: user.targetCareer || null,
   };
 }
 
-// Check that this router is loaded
+function validList(value) {
+  return (
+    Array.isArray(value) &&
+    value.length <= 20 &&
+    value.every(
+      (item) =>
+        typeof item === "string" &&
+        item.trim().length > 0 &&
+        item.trim().length <= 60
+    )
+  );
+}
+
+function cleanList(items) {
+  const seen = new Set();
+
+  return items
+    .map((item) => item.trim())
+    .filter((item) => {
+      const key = item.toLowerCase();
+
+      if (seen.has(key)) return false;
+
+      seen.add(key);
+      return true;
+    });
+}
+
 // GET /api/auth/test
 router.get("/test", (req, res) => {
-  res.json({
+  return res.json({
     message: "Career Guidance auth routes are working",
   });
 });
 
-// REGISTER: POST /api/auth/register
+// POST /api/auth/register
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body || {};
@@ -76,7 +107,6 @@ router.post("/register", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Users cannot register themselves as admins
     const user = await User.create({
       name: cleanName,
       email: cleanEmail,
@@ -103,7 +133,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// LOGIN: POST /api/auth/login
+// POST /api/auth/login
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body || {};
@@ -127,7 +157,9 @@ router.post("/login", async (req, res) => {
 
     const user = await User.findOne({
       email: email.trim().toLowerCase(),
-    }).select("+password");
+    })
+      .select("+password")
+      .populate("targetCareer", "title description skills");
 
     if (!user) {
       return res.status(401).json({
@@ -155,7 +187,7 @@ router.post("/login", async (req, res) => {
       }
     );
 
-    return res.status(200).json({
+    return res.json({
       message: "Login successful",
       token,
       user: publicUser(user),
@@ -168,28 +200,17 @@ router.post("/login", async (req, res) => {
     });
   }
 });
+
 // GET /api/auth/me
 router.get("/me", authMiddleware, (req, res) => {
   return res.json({
     user: publicUser(req.user),
   });
 });
+
 // PATCH /api/auth/profile
 router.patch("/profile", authMiddleware, async (req, res) => {
   const { name, interests, skills } = req.body || {};
-
-  function validList(value) {
-    return (
-      Array.isArray(value) &&
-      value.length <= 20 &&
-      value.every(
-        (item) =>
-          typeof item === "string" &&
-          item.trim().length > 0 &&
-          item.trim().length <= 60
-      )
-    );
-  }
 
   if (
     typeof name !== "string" ||
@@ -204,21 +225,6 @@ router.patch("/profile", authMiddleware, async (req, res) => {
     });
   }
 
-  function cleanList(items) {
-    const seen = new Set();
-
-    return items
-      .map((item) => item.trim())
-      .filter((item) => {
-        const key = item.toLowerCase();
-
-        if (seen.has(key)) return false;
-
-        seen.add(key);
-        return true;
-      });
-  }
-
   try {
     const user = await User.findByIdAndUpdate(
       req.user._id,
@@ -230,7 +236,9 @@ router.patch("/profile", authMiddleware, async (req, res) => {
         },
       },
       { new: true, runValidators: true }
-    );
+    )
+      .select("_id name email role interests skills targetCareer")
+      .populate("targetCareer", "title description skills");
 
     if (!user) {
       return res.status(401).json({
@@ -251,5 +259,66 @@ router.patch("/profile", authMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+// PATCH /api/auth/target-career
+router.patch("/target-career", authMiddleware, async (req, res) => {
+  const { careerId } = req.body || {};
 
+  // null clears the selection; otherwise require a valid ID.
+  if (
+    careerId !== null &&
+    (typeof careerId !== "string" ||
+      !/^[a-f0-9]{24}$/i.test(careerId))
+  ) {
+    return res.status(400).json({
+      message: "Provide a valid career ID or null",
+    });
+  }
+
+  try {
+    if (careerId !== null) {
+      const careerExists = await Career.exists({
+        _id: careerId,
+      });
+
+      if (!careerExists) {
+        return res.status(404).json({
+          message: "Career not found",
+        });
+      }
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $set: {
+          targetCareer: careerId,
+        },
+      },
+      { new: true, runValidators: true }
+    )
+      .select("_id name email role interests skills targetCareer")
+      .populate("targetCareer", "title description skills");
+
+    if (!user) {
+      return res.status(401).json({
+        message: "User account not found",
+      });
+    }
+
+    return res.json({
+      message:
+        careerId === null
+          ? "Target career cleared"
+          : "Target career saved successfully",
+      user: publicUser(user),
+    });
+  } catch (error) {
+    console.error("Target career error:", error.message);
+
+    return res.status(500).json({
+      message: "Unable to save your target career",
+    });
+  }
+});
+
+module.exports = router;
