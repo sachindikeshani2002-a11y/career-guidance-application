@@ -58,6 +58,13 @@ router.get("/test", (req, res) => {
 // POST /api/auth/register
 router.post("/register", async (req, res) => {
   try {
+    // Security enforcement: public registration can never assign an admin role
+    if (req.body && req.body.role && req.body.role !== "student") {
+      return res.status(403).json({
+        message: "Public registration is only permitted for student accounts",
+      });
+    }
+
     const { name, email, password } = req.body || {};
 
     if (

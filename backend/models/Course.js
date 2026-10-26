@@ -22,6 +22,11 @@ const courseSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    isDeleting: {
+      type: Boolean,
+      default: false,
+      select: false,
+    },
   },
   { timestamps: true }
 );

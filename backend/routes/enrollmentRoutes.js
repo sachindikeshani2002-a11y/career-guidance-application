@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Enroll in a course
+// Enroll in a course (with referential integrity protection against concurrent deletion)
 router.post("/", async (req, res) => {
   const { courseId } = req.body || {};
 
@@ -39,16 +39,34 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    const course = await Course.findById(courseId);
+    const course = await Course.findOne({
+      _id: courseId,
+      isDeleting: { $ne: true },
+    });
 
     if (!course) {
-      return res.status(404).json({ message: "Course not found" });
+      return res.status(404).json({
+        message: "Course not found or is no longer available",
+      });
     }
 
     const enrollment = await Enrollment.create({
       user: req.user._id,
       course: course._id,
     });
+
+    // Referential integrity verification: ensure course was not deleted concurrently
+    const courseStillActive = await Course.exists({
+      _id: courseId,
+      isDeleting: { $ne: true },
+    });
+
+    if (!courseStillActive) {
+      await Enrollment.findByIdAndDelete(enrollment._id);
+      return res.status(404).json({
+        message: "Course is no longer available",
+      });
+    }
 
     return res.status(201).json({
       message: "Enrollment successful",
