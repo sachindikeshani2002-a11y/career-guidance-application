@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" fill="none" role="img" aria-label="UI UX Design Course Thumbnail">
+  <defs>
+    <linearGradient id="cux-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9333ea" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="200" rx="10" fill="url(#cux-bg)" />
+  <circle cx="340" cy="50" r="70" fill="#ffffff" fill-opacity="0.1" />
+
+  <!-- Layout Wireframe Blocks -->
+  <g transform="translate(130, 40)">
+    <rect width="140" height="120" rx="12" fill="#ffffff" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.25))" />
+    <rect x="15" y="15" width="110" height="14" rx="4" fill="#a855f7" />
+    <rect x="15" y="38" width="50" height="35" rx="6" fill="#fce7f3" />
+    <rect x="75" y="38" width="50" height="35" rx="6" fill="#f3e8ff" />
+    <rect x="15" y="82" width="110" height="8" rx="4" fill="#f4f4f5" />
+    <rect x="15" y="96" width="75" height="8" rx="4" fill="#f4f4f5" />
+  </g>
+</svg>

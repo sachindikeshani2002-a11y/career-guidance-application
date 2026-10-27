@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" fill="none" role="img" aria-label="User Research Course Thumbnail">
+  <defs>
+    <linearGradient id="cur-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#be185d" />
+      <stop offset="100%" stop-color="#831843" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="200" rx="10" fill="url(#cur-bg)" />
+  <circle cx="50" cy="50" r="70" fill="#ffffff" fill-opacity="0.08" />
+
+  <!-- Interview Clipboard & Magnifier -->
+  <g transform="translate(130, 38)">
+    <rect width="140" height="124" rx="12" fill="#ffffff" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.25))" />
+    <!-- Clip -->
+    <rect x="50" y="8" width="40" height="10" rx="4" fill="#374151" />
+    <circle cx="70" cy="13" r="2.5" fill="#ffffff" />
+
+    <!-- Avatar silhouettes -->
+    <circle cx="45" cy="48" r="14" fill="#fce7f3" />
+    <circle cx="45" cy="44" r="6" fill="#ec4899" />
+    <path d="M 35 58 C 35 54, 40 52, 45 52 C 50 52, 55 54, 55 58 Z" fill="#ec4899" />
+
+    <rect x="68" y="42" width="54" height="6" rx="3" fill="#9ca3af" />
+    <rect x="68" y="52" width="42" height="6" rx="3" fill="#cbd5e1" />
+
+    <!-- Survey lines -->
+    <rect x="22" y="74" width="8" height="8" rx="2" fill="#10b981" />
+    <rect x="36" y="76" width="82" height="5" rx="2.5" fill="#cbd5e1" />
+
+    <rect x="22" y="90" width="8" height="8" rx="2" fill="#10b981" />
+    <rect x="36" y="92" width="65" height="5" rx="2.5" fill="#cbd5e1" />
+
+    <rect x="22" y="106" width="8" height="8" rx="2" fill="#10b981" />
+    <rect x="36" y="108" width="76" height="5" rx="2.5" fill="#cbd5e1" />
+  </g>
+</svg>

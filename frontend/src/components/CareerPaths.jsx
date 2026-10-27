@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getCareerImage, careerDefault } from "../utils/imageMapper";
 
 export default function CareerPaths({ token, onLogout, user, onSelectCareer }) {
   const [careers, setCareers] = useState([]);
@@ -106,25 +107,32 @@ export default function CareerPaths({ token, onLogout, user, onSelectCareer }) {
 
   return (
     <section className="cp-panel">
-      <h2>Career Paths</h2>
-      <p>
-        Compare your current skills with each career's listed skills.
-        Careers are sorted by skill coverage.
-      </p>
+      <div className="cp-section-header">
+        <div>
+          <h2>Career Paths</h2>
+          <p>
+            Explore high-demand career tracks and compare required competencies with your current profile skills.
+          </p>
+        </div>
+      </div>
 
       {userSkills.size === 0 && (
-        <p>
-          Add your current skills in My Profile to personalize this view.
-        </p>
+        <div className="cp-notice-pill" role="status">
+          <span>💡</span>
+          <p>
+            Tip: Add your current skills in <strong>My Profile</strong> to view personalized skill coverage percentages.
+          </p>
+        </div>
       )}
 
-      {loading && <p role="status">Loading career paths...</p>}
+      {loading && <p className="cp-loading-text" role="status">Loading career paths...</p>}
 
       {!loading && error && (
-        <div>
+        <div className="cp-status-block">
           <p role="alert">{error}</p>
           <button
             type="button"
+            className="cp-btn-secondary"
             onClick={() => setAttempt((value) => value + 1)}
           >
             Try again
@@ -133,63 +141,88 @@ export default function CareerPaths({ token, onLogout, user, onSelectCareer }) {
       )}
 
       {!loading && !error && rankedCareers.length === 0 && (
-        <p>No career paths have been added yet.</p>
+        <p className="cp-empty-text">No career paths have been added yet.</p>
       )}
 
       {!loading && !error && (
         <div className="cp-cards">
           {rankedCareers.map((career) => (
-            <article className="cp-card" key={career._id}>
-              <h3>{career.title}</h3>
-              <p>{career.description}</p>
+            <article className="cp-card cp-career-card" key={career._id}>
+              <div className="cp-thumbnail-container">
+                <img
+                  src={getCareerImage(career.title)}
+                  alt={`${career.title} pathway banner`}
+                  className="cp-card-thumbnail"
+                  width="400"
+                  height="200"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.src = careerDefault;
+                  }}
+                />
+              </div>
 
-              {career.coverage !== null ? (
-                <>
-                  <p>
-                    <strong>
-                      Skill coverage: {career.coverage}%
-                    </strong>
-                  </p>
-                  <progress
-                    className="cp-skill-progress"
-                    value={career.coverage}
-                    max={100}
-                    aria-label={`${career.title} skill coverage`}
-                  />
-                </>
-              ) : (
-                <p>No required skills have been listed yet.</p>
-              )}
+              <div className="cp-card-body">
+                <h3>{career.title}</h3>
+                <p className="cp-card-description">{career.description}</p>
 
-              <h4>Matching skills</h4>
-              {career.matchingSkills.length > 0 ? (
-                <ul>
-                  {career.matchingSkills.map((skill) => (
-                    <li key={skill}>{skill}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No matching skills listed in your profile yet.</p>
-              )}
+                {career.coverage !== null ? (
+                  <div className="cp-coverage-block">
+                    <div className="cp-coverage-label">
+                      <span>Skill Match</span>
+                      <span className="cp-coverage-val">{career.coverage}%</span>
+                    </div>
+                    <progress
+                      className="cp-skill-progress"
+                      value={career.coverage}
+                      max={100}
+                      aria-label={`${career.title} skill match ${career.coverage}%`}
+                    />
+                  </div>
+                ) : (
+                  <p className="cp-subtle-text">No required skills listed.</p>
+                )}
 
-              <h4>Skills to develop</h4>
-              {career.missingSkills.length > 0 ? (
-                <ul>
-                  {career.missingSkills.map((skill) => (
-                    <li key={skill}>{skill}</li>
-                  ))}
-                </ul>
-              ) : (
-                career.coverage !== null && (
-                  <p>All listed skills match your profile.</p>
-                )
-              )}
-              <button
-  type="button"
-  onClick={() => onSelectCareer(career)}
->
-  Find courses for this career
-</button>
+                <div className="cp-skills-section">
+                  <h4>Matching Skills ({career.matchingSkills.length})</h4>
+                  {career.matchingSkills.length > 0 ? (
+                    <ul className="cp-skill-pills">
+                      {career.matchingSkills.map((skill) => (
+                        <li key={skill} className="cp-pill-match">
+                          ✓ {skill}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="cp-subtle-text">No matching skills recorded yet.</p>
+                  )}
+                </div>
+
+                <div className="cp-skills-section">
+                  <h4>Skills to Develop ({career.missingSkills.length})</h4>
+                  {career.missingSkills.length > 0 ? (
+                    <ul className="cp-skill-pills">
+                      {career.missingSkills.map((skill) => (
+                        <li key={skill} className="cp-pill-missing">
+                          + {skill}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    career.coverage !== null && (
+                      <p className="cp-subtle-success">✓ 100% of listed skills match your profile!</p>
+                    )
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  className="cp-btn-primary cp-btn-full"
+                  onClick={() => onSelectCareer(career)}
+                >
+                  Find Courses for This Career →
+                </button>
+              </div>
             </article>
           ))}
         </div>

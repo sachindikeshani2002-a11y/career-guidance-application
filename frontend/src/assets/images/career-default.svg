@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" fill="none" role="img" aria-label="Career Path Exploration Thumbnail">
+  <defs>
+    <linearGradient id="def-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#405de0" />
+      <stop offset="100%" stop-color="#7355db" />
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="220" rx="12" fill="url(#def-bg)" />
+  <circle cx="340" cy="50" r="90" fill="#ffffff" fill-opacity="0.08" />
+  <circle cx="60" cy="170" r="70" fill="#ffffff" fill-opacity="0.06" />
+
+  <!-- Compass & Target Emblem -->
+  <g transform="translate(130, 40)">
+    <circle cx="70" cy="70" r="60" fill="#ffffff" fill-opacity="0.12" stroke="#ffffff" stroke-width="2" stroke-dasharray="6 6" />
+    <circle cx="70" cy="70" r="44" fill="#ffffff" filter="drop-shadow(0 8px 16px rgba(0,0,0,0.25))" />
+
+    <!-- Compass Pointer -->
+    <path d="M 70 36 L 80 70 L 70 65 Z" fill="#ef4444" />
+    <path d="M 70 36 L 60 70 L 70 65 Z" fill="#dc2626" />
+    <path d="M 70 104 L 80 70 L 70 75 Z" fill="#94a3b8" />
+    <path d="M 70 104 L 60 70 L 70 75 Z" fill="#64748b" />
+    <circle cx="70" cy="70" r="4" fill="#1e293b" />
+  </g>
+
+  <!-- Labels -->
+  <text x="200" y="180" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="1">CAREER MILESTONE</text>
+</svg>

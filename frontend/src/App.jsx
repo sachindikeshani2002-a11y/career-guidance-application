@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import Dashboard from "./components/Dashboard";
+import { heroAuth } from "./utils/imageMapper";
 import "./App.css";
 
 const API_URL = "http://localhost:5001/api/auth";
@@ -10,11 +11,12 @@ export default function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Keep this initial session in memory
+  // Keep session in memory
   const [session, setSession] = useState(null);
 
   const isRegister = mode === "register";
@@ -70,7 +72,7 @@ export default function App() {
         setMode("login");
         setPassword("");
         setConfirmPassword("");
-        setMessage("Account created successfully. Please log in.");
+        setMessage("Account created successfully! Please log in.");
       } else {
         setSession({
           user: data.user,
@@ -89,76 +91,95 @@ export default function App() {
     }
   }
 
-  function logout() {
+  const handleLogout = useCallback(() => {
     setSession(null);
-    setMode("login");
     setPassword("");
-    setMessage("");
+    setConfirmPassword("");
     setError("");
-  }
-const handleLogout = useCallback(() => {
-  setSession(null);
-  setPassword("");
-  setConfirmPassword("");
-  setError("");
-  setMessage("");
-  setMode("login");
-}, []);
+    setMessage("");
+    setMode("login");
+  }, []);
+
   if (session) {
     return (
-    <Dashboard
-      token={session.token}
-      onLogout={handleLogout}
-    />
-  );
+      <Dashboard
+        token={session.token}
+        onLogout={handleLogout}
+      />
+    );
   }
 
   return (
     <main className="auth-page">
-      <section className="intro-panel">
-        <span className="brand">CareerPath</span>
+      <section className="intro-panel" aria-label="CareerPath Introduction">
+        <div className="brand-badge">
+          <span className="brand-dot"></span>
+          <span className="brand">CareerPath</span>
+        </div>
 
         <div className="intro-content">
-          <span className="eyebrow">YOUR FUTURE STARTS HERE</span>
+          <span className="eyebrow">UNIVERSITY CAREER GUIDANCE &amp; SKILLS</span>
           <h1>
             Discover your path.
             <br />
             Build your future.
           </h1>
           <p>
-            Explore career opportunities, develop your skills,
-            and take the next step with confidence.
+            Explore career tracks, assess skill readiness, enroll in university
+            courses, and track your milestone progress.
           </p>
 
           <div className="feature-list">
-            <div>✓ Explore career paths</div>
-            <div>✓ Find skills to develop</div>
-            <div>✓ Track your learning journey</div>
+            <div>
+              <span className="check-bullet">✓</span>
+              <span>Compare skills against career requirements</span>
+            </div>
+            <div>
+              <span className="check-bullet">✓</span>
+              <span>Find courses with high new-skill coverage</span>
+            </div>
+            <div>
+              <span className="check-bullet">✓</span>
+              <span>Persist your career target and learning history</span>
+            </div>
           </div>
         </div>
 
+        <div className="intro-hero-wrapper">
+          <img
+            src={heroAuth}
+            alt="Career planning dashboard illustration"
+            className="intro-hero-img"
+            width="460"
+            height="260"
+            loading="lazy"
+          />
+        </div>
+
         <p className="intro-footer">
-          Career Guidance &amp; Skill Development
+          EC4307 Web Application Development · Academic Project
         </p>
       </section>
 
-      <section className="form-panel">
+      <section className="form-panel" aria-label="Account Access">
         <div className="auth-card">
-          <span className="form-tag">LET’S GET STARTED</span>
+          <span className="form-tag">
+            {isRegister ? "STUDENT REGISTRATION" : "SECURE LOGIN"}
+          </span>
           <h2>{isRegister ? "Create your account" : "Welcome back"}</h2>
           <p className="form-description">
             {isRegister
-              ? "Start planning your career journey today."
-              : "Log in to continue your career journey."}
+              ? "Register with your student profile to start planning."
+              : "Log in with your credentials to access your dashboard."}
           </p>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
             {isRegister && (
               <label>
                 Full name
                 <input
                   type="text"
-                  placeholder="Enter your full name"
+                  placeholder="e.g. Samith Rathnayaka"
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                   required
@@ -173,7 +194,7 @@ const handleLogout = useCallback(() => {
               Email address
               <input
                 type="email"
-                placeholder="you@example.com"
+                placeholder="you@university.edu"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 required
@@ -182,31 +203,42 @@ const handleLogout = useCallback(() => {
               />
             </label>
 
-            <label>
-              Password
-              <input
-                type="password"
-                placeholder={
-                  isRegister
-                    ? "Create a password (8+ characters)"
-                    : "Enter your password"
-                }
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-                minLength={isRegister ? 8 : undefined}
-                autoComplete={
-                  isRegister ? "new-password" : "current-password"
-                }
-                disabled={loading}
-              />
+            <label className="password-label">
+              <span>Password</span>
+              <div className="password-input-group">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder={
+                    isRegister
+                      ? "Create a secure password (8+ characters)"
+                      : "Enter your password"
+                  }
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  required
+                  minLength={isRegister ? 8 : undefined}
+                  autoComplete={
+                    isRegister ? "new-password" : "current-password"
+                  }
+                  disabled={loading}
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  disabled={loading}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
             </label>
 
             {isRegister && (
               <label>
                 Confirm password
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Re-enter your password"
                   value={confirmPassword}
                   onChange={(event) =>
@@ -222,13 +254,13 @@ const handleLogout = useCallback(() => {
 
             {error && (
               <p className="feedback error" role="alert">
-                {error}
+                <span>⚠</span> {error}
               </p>
             )}
 
             {message && (
               <p className="feedback success" role="status">
-                {message}
+                <span>✓</span> {message}
               </p>
             )}
 
@@ -240,21 +272,21 @@ const handleLogout = useCallback(() => {
               {loading
                 ? "Please wait..."
                 : isRegister
-                  ? "Create account"
-                  : "Log in"}
+                  ? "Create Account"
+                  : "Log In to CareerPath"}
             </button>
           </form>
 
           <p className="switch-text">
             {isRegister
               ? "Already have an account?"
-              : "Don’t have an account?"}{" "}
+              : "Don't have an account yet?"}{" "}
             <button
               type="button"
               onClick={changeMode}
               disabled={loading}
             >
-              {isRegister ? "Log in" : "Sign up"}
+              {isRegister ? "Log In" : "Register Here"}
             </button>
           </p>
         </div>

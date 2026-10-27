@@ -67,7 +67,7 @@ export default function ProgressSummary({ token, onLogout }) {
   }, [token, onLogout, attempt]);
 
   if (loading) {
-    return <p role="status">Loading your learning summary...</p>;
+    return <p className="cp-loading-text" role="status">Loading real-time learning summary...</p>;
   }
 
   if (error) {
@@ -76,6 +76,7 @@ export default function ProgressSummary({ token, onLogout }) {
         <p role="alert">{error}</p>
         <button
           type="button"
+          className="cp-btn-secondary"
           onClick={() => setAttempt((value) => value + 1)}
         >
           Try again
@@ -96,43 +97,56 @@ export default function ProgressSummary({ token, onLogout }) {
     total > 0 ? Math.round((completed / total) * 100) : 0;
 
   return (
-    <section aria-label="Your learning summary">
-      <div className="cp-cards">
-        <article className="cp-card">
-          <h3>Enrolled Courses</h3>
+    <section aria-label="Your real-time learning summary">
+      <div className="cp-cards cp-summary-cards">
+        <article className="cp-card cp-stat-card">
+          <div className="cp-stat-top">
+            <span className="cp-stat-icon cp-icon-blue">📚</span>
+            <span className="cp-stat-tag">ENROLLED</span>
+          </div>
           <p className="cp-stat-number">{total}</p>
+          <span className="cp-stat-subtext">Total active curriculum</span>
         </article>
 
-        <article className="cp-card">
-          <h3>Ongoing Courses</h3>
+        <article className="cp-card cp-stat-card">
+          <div className="cp-stat-top">
+            <span className="cp-stat-icon cp-icon-amber">⏳</span>
+            <span className="cp-stat-tag">IN PROGRESS</span>
+          </div>
           <p className="cp-stat-number">{ongoing}</p>
+          <span className="cp-stat-subtext">Ongoing coursework</span>
         </article>
 
-        <article className="cp-card">
-          <h3>Completed Courses</h3>
+        <article className="cp-card cp-stat-card">
+          <div className="cp-stat-top">
+            <span className="cp-stat-icon cp-icon-green">🏆</span>
+            <span className="cp-stat-tag">COMPLETED</span>
+          </div>
           <p className="cp-stat-number">{completed}</p>
+          <span className="cp-stat-subtext">Finished courses</span>
         </article>
       </div>
 
       <div className="cp-panel cp-summary-progress">
-        <h3>Course Completion</h3>
-
-        {total === 0 ? (
-          <p>Enroll in a course to start your learning journey.</p>
-        ) : (
-          <>
+        <div className="cp-summary-progress-header">
+          <div>
+            <h3>Overall Course Completion</h3>
             <p>
-              {completed} of {total} enrolled courses completed
-              {" "}({completionRate}%).
+              {total === 0
+                ? "Enroll in a course from Skill Development to begin tracking completion milestones."
+                : `${completed} of ${total} enrolled courses completed`}
             </p>
+          </div>
+          <span className="cp-completion-percentage">{completionRate}%</span>
+        </div>
 
-            <progress
-              className="cp-skill-progress"
-              value={completed}
-              max={total}
-              aria-label="Completed enrolled courses"
-            />
-          </>
+        {total > 0 && (
+          <progress
+            className="cp-skill-progress cp-progress-large"
+            value={completed}
+            max={total}
+            aria-label={`Overall course completion: ${completionRate}%`}
+          />
         )}
       </div>
     </section>

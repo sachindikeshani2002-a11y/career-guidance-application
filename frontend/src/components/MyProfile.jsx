@@ -37,6 +37,17 @@ export default function MyProfile({
       });
   }
 
+  const parsedInterests = toList(interests);
+  const parsedSkills = toList(skills);
+
+  const initials = (name || user.name || "U")
+    .split(" ")
+    .filter(Boolean)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+
   async function handleSave(event) {
     event.preventDefault();
 
@@ -125,81 +136,163 @@ export default function MyProfile({
   }
 
   return (
-    <section className="cp-panel">
-      <h2>My Profile</h2>
-      <p>Update your name, interests and current skills.</p>
+    <section className="cp-panel cp-profile-container">
+      <div className="cp-profile-top-bar">
+        <div className="cp-profile-avatar-circle" aria-hidden="true">
+          {initials}
+        </div>
+        <div>
+          <h2>My Profile</h2>
+          <p>Manage your account name, career interests and competency skills.</p>
+        </div>
+      </div>
+
+      {message && (
+        <div className="cp-banner-success" role="status">
+          <span>✓</span>
+          <p>{message}</p>
+          <button
+            type="button"
+            className="cp-banner-close"
+            onClick={() => setMessage("")}
+            aria-label="Dismiss message"
+          >
+            ×
+          </button>
+        </div>
+      )}
+
+      {error && (
+        <div className="cp-banner-error" role="alert">
+          <span>⚠</span>
+          <p>{error}</p>
+          <button
+            type="button"
+            className="cp-banner-close"
+            onClick={() => setError("")}
+            aria-label="Dismiss error"
+          >
+            ×
+          </button>
+        </div>
+      )}
 
       <form
         className="cp-profile-form"
         onSubmit={handleSave}
         aria-busy={saving}
+        noValidate
       >
-        <label htmlFor="profile-name">Full name</label>
-        <input
-          id="profile-name"
-          type="text"
-          autoComplete="name"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-          required
-          maxLength={100}
-          disabled={saving}
-        />
+        <div className="cp-form-row">
+          <div className="cp-form-group">
+            <label htmlFor="profile-name">Full name</label>
+            <input
+              id="profile-name"
+              type="text"
+              autoComplete="name"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              required
+              maxLength={100}
+              disabled={saving}
+            />
+          </div>
 
-        <label htmlFor="profile-email">Email</label>
-        <input
-          id="profile-email"
-          type="email"
-          value={user.email || ""}
-          readOnly
-        />
+          <div className="cp-form-group">
+            <label htmlFor="profile-email">Registered Email</label>
+            <input
+              id="profile-email"
+              type="email"
+              value={user.email || ""}
+              readOnly
+              className="cp-input-readonly"
+              title="Registered email cannot be modified"
+            />
+          </div>
 
-        <label htmlFor="profile-role">Account role</label>
-        <input
-          id="profile-role"
-          type="text"
-          value={user.role || "student"}
-          readOnly
-        />
+          <div className="cp-form-group cp-form-flex-sm">
+            <label htmlFor="profile-role">Account Role</label>
+            <input
+              id="profile-role"
+              type="text"
+              value={user.role || "student"}
+              readOnly
+              className="cp-input-readonly"
+            />
+          </div>
+        </div>
 
-        <label htmlFor="profile-interests">Interests</label>
-        <textarea
-          id="profile-interests"
-          value={interests}
-          onChange={(event) =>
-            setInterests(event.target.value)
-          }
-          placeholder="Web Development, Data Analysis, Design"
-          rows={3}
-          disabled={saving}
-          aria-describedby="profile-list-help"
-        />
+        <div className="cp-form-group">
+          <div className="cp-label-with-count">
+            <label htmlFor="profile-interests">Career Interests</label>
+            <span className="cp-char-count">{parsedInterests.length}/20 items</span>
+          </div>
+          <textarea
+            id="profile-interests"
+            value={interests}
+            onChange={(event) => setInterests(event.target.value)}
+            placeholder="e.g. Cloud Computing, Machine Learning, UI/UX Design"
+            rows={3}
+            disabled={saving}
+            aria-describedby="profile-interests-help"
+          />
+          <small id="profile-interests-help">
+            Separate items with commas. Up to 20 interests, max 60 characters each.
+          </small>
+          {parsedInterests.length > 0 && (
+            <div className="cp-preview-pills">
+              <span className="cp-preview-title">Recognized:</span>
+              <ul className="cp-skill-pills">
+                {parsedInterests.map((item) => (
+                  <li key={item} className="cp-pill-interest">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
 
-        <label htmlFor="profile-skills">Current skills</label>
-        <textarea
-          id="profile-skills"
-          value={skills}
-          onChange={(event) =>
-            setSkills(event.target.value)
-          }
-          placeholder="HTML, CSS, JavaScript"
-          rows={3}
-          disabled={saving}
-          aria-describedby="profile-list-help"
-        />
+        <div className="cp-form-group">
+          <div className="cp-label-with-count">
+            <label htmlFor="profile-skills">Current Skills</label>
+            <span className="cp-char-count">{parsedSkills.length}/20 items</span>
+          </div>
+          <textarea
+            id="profile-skills"
+            value={skills}
+            onChange={(event) => setSkills(event.target.value)}
+            placeholder="e.g. JavaScript, Python, SQL, Git, Figma"
+            rows={3}
+            disabled={saving}
+            aria-describedby="profile-skills-help"
+          />
+          <small id="profile-skills-help">
+            Separate items with commas. Used directly to calculate Career Path match rates.
+          </small>
+          {parsedSkills.length > 0 && (
+            <div className="cp-preview-pills">
+              <span className="cp-preview-title">Recognized:</span>
+              <ul className="cp-skill-pills">
+                {parsedSkills.map((item) => (
+                  <li key={item} className="cp-pill-general">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
 
-        <small id="profile-list-help">
-          Separate items with commas. Maximum 20 items per field,
-          each up to 60 characters. Duplicate items are removed.
-        </small>
-
-        {message && <p role="status">{message}</p>}
-
-        {error && <p role="alert">{error}</p>}
-
-        <button type="submit" disabled={saving}>
-          {saving ? "Saving..." : "Save profile"}
-        </button>
+        <div className="cp-profile-actions">
+          <button
+            type="submit"
+            className="cp-btn-primary cp-btn-save"
+            disabled={saving}
+          >
+            {saving ? "Saving Changes..." : "Save Profile"}
+          </button>
+        </div>
       </form>
     </section>
   );

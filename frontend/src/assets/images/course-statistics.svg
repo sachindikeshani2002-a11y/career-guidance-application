@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" fill="none" role="img" aria-label="Statistics Course Thumbnail">
+  <defs>
+    <linearGradient id="cst-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#3730a3" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="200" rx="10" fill="url(#cst-bg)" />
+  <circle cx="50" cy="50" r="70" fill="#ffffff" fill-opacity="0.08" />
+
+  <!-- Bell curve graph card -->
+  <g transform="translate(130, 40)">
+    <rect width="140" height="120" rx="14" fill="#ffffff" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.25))" />
+
+    <!-- Coordinate axes -->
+    <line x1="20" y1="95" x2="120" y2="95" stroke="#cbd5e1" stroke-width="1.5" />
+    <line x1="70" y1="20" x2="70" y2="95" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 3" />
+
+    <!-- Gaussian Curve -->
+    <path d="M 22 93 C 45 93, 55 35, 70 35 C 85 35, 95 93, 118 93" stroke="#4f46e5" stroke-width="3.5" fill="none" stroke-linecap="round" />
+    <circle cx="70" cy="35" r="4" fill="#ef4444" />
+  </g>
+
+  <text x="35" y="115" font-family="system-ui, sans-serif" font-size="28" font-weight="700" fill="#ffffff" fill-opacity="0.25">μ ± σ</text>
+  <text x="300" y="115" font-family="system-ui, sans-serif" font-size="28" font-weight="700" fill="#ffffff" fill-opacity="0.25">P(X)</text>
+</svg>

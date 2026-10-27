@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CourseLessons from "./CourseLessons";
+import { getCourseImage, courseDefault } from "../utils/imageMapper";
 
 export default function SkillDevelopment({
   token,
@@ -22,6 +23,7 @@ export default function SkillDevelopment({
   const [recommendedOnly, setRecommendedOnly] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [levelFilter, setLevelFilter] = useState("All");
+  const [sortBy, setSortBy] = useState("recommended");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -167,7 +169,7 @@ export default function SkillDevelopment({
       }
 
       setEnrollMessage(
-        "Enrollment successful. View it in My Progress."
+        "Enrollment successful! Access your lessons in My Progress."
       );
     } catch (err) {
       setEnrollError(
@@ -205,6 +207,7 @@ export default function SkillDevelopment({
   function resetFilters() {
     setSearchText("");
     setLevelFilter("All");
+    setSortBy("recommended");
     setRecommendedOnly(false);
   }
 
@@ -224,31 +227,29 @@ export default function SkillDevelopment({
     missingCareerSkills.map(normalizeSkill)
   );
 
-  const rankedCourses = courses
-    .map((course) => {
-      const courseSkills = uniqueSkills(course.skills);
+  const levelRank = {
+    Beginner: 1,
+    Intermediate: 2,
+    Advanced: 3,
+  };
 
-      const newSkills = courseSkills.filter(
-        (skill) => !currentSkills.has(normalizeSkill(skill))
-      );
+  const rankedCourses = courses.map((course) => {
+    const courseSkills = uniqueSkills(course.skills);
 
-      return {
-        ...course,
-        courseSkills,
-        newSkills,
-        newSkillRatio:
-          courseSkills.length > 0
-            ? newSkills.length / courseSkills.length
-            : 0,
-      };
-    })
-    .sort(
-      (a, b) =>
-        (hasProfileSkills
-          ? b.newSkillRatio - a.newSkillRatio
-          : 0) ||
-        a.title.localeCompare(b.title)
+    const newSkills = courseSkills.filter(
+      (skill) => !currentSkills.has(normalizeSkill(skill))
     );
+
+    return {
+      ...course,
+      courseSkills,
+      newSkills,
+      newSkillRatio:
+        courseSkills.length > 0
+          ? newSkills.length / courseSkills.length
+          : 0,
+    };
+  });
 
   const careerCourses = targetCareer
     ? rankedCourses.filter((course) =>
@@ -284,18 +285,49 @@ export default function SkillDevelopment({
     return matchesSearch && matchesLevel;
   });
 
+  const sortedCourses = [...visibleCourses].sort((a, b) => {
+    switch (sortBy) {
+      case "title-asc":
+        return a.title.localeCompare(b.title);
+      case "title-desc":
+        return b.title.localeCompare(a.title);
+      case "level-asc":
+        return (
+          (levelRank[a.level] || 0) - (levelRank[b.level] || 0) ||
+          a.title.localeCompare(b.title)
+        );
+      case "level-desc":
+        return (
+          (levelRank[b.level] || 0) - (levelRank[a.level] || 0) ||
+          a.title.localeCompare(b.title)
+        );
+      case "recommended":
+      default:
+        return (
+          (hasProfileSkills ? b.newSkillRatio - a.newSkillRatio : 0) ||
+          a.title.localeCompare(b.title)
+        );
+    }
+  });
+
   return (
     <section className="cp-panel">
-      <h2>Skill Development</h2>
+      <div className="cp-section-header">
+        <div>
+          <h2>Skill Development</h2>
+          <p>
+            Explore university courses designed to bridge skill gaps and advance your targeted career.
+          </p>
+        </div>
+      </div>
 
       <div className="cp-course-controls">
         <div>
           <label htmlFor="course-search">Search courses</label>
-
           <input
             id="course-search"
             type="search"
-            placeholder="Search title, description or skill..."
+            placeholder="Search by title, description or skill..."
             value={searchText}
             onChange={(event) =>
               setSearchText(event.target.value)
@@ -304,8 +336,7 @@ export default function SkillDevelopment({
         </div>
 
         <div>
-          <label htmlFor="course-level">Level</label>
-
+          <label htmlFor="course-level">Filter Level</label>
           <select
             id="course-level"
             value={levelFilter}
@@ -320,76 +351,110 @@ export default function SkillDevelopment({
           </select>
         </div>
 
-        <button type="button" onClick={resetFilters}>
+        <div>
+          <label htmlFor="course-sort">Sort By</label>
+          <select
+            id="course-sort"
+            value={sortBy}
+            onChange={(event) =>
+              setSortBy(event.target.value)
+            }
+          >
+            <option value="recommended">Recommended for you</option>
+            <option value="title-asc">Title: A to Z</option>
+            <option value="title-desc">Title: Z to A</option>
+            <option value="level-asc">Level: Beginner to Advanced</option>
+            <option value="level-desc">Level: Advanced to Beginner</option>
+          </select>
+        </div>
+
+        <button type="button" className="cp-btn-secondary" onClick={resetFilters}>
           Reset filters
         </button>
       </div>
 
       {targetCareer && (
-        <div className="cp-panel">
-          <h3>Target career: {targetCareer.title}</h3>
-
-          <p>
-            Skills to develop:{" "}
+        <div className="cp-target-box">
+          <div className="cp-target-header">
+            <div>
+              <span className="cp-tag-target">ACTIVE CAREER TARGET</span>
+              <h3>{targetCareer.title}</h3>
+            </div>
+            <button
+              type="button"
+              className="cp-btn-secondary cp-btn-sm"
+              onClick={() => {
+                resetFilters();
+                onClearCareer();
+              }}
+            >
+              Clear Target Filter
+            </button>
+          </div>
+          <p className="cp-target-skills-text">
+            <strong>Target skills to develop:</strong>{" "}
             {missingCareerSkills.length > 0
               ? missingCareerSkills.join(", ")
-              : "All listed career skills match your profile."}
+              : "All required skills match your current profile."}
           </p>
+        </div>
+      )}
 
+      {hasProfileSkills && (
+        <div className="cp-filter-toggle-row">
+          <label className="cp-course-filter">
+            <input
+              type="checkbox"
+              checked={recommendedOnly}
+              onChange={(event) =>
+                setRecommendedOnly(event.target.checked)
+              }
+            />
+            <span>Show only courses offering new skills for your profile</span>
+          </label>
+        </div>
+      )}
+
+      {enrollMessage && (
+        <div className="cp-banner-success" role="status">
+          <span>✓</span>
+          <p>{enrollMessage}</p>
           <button
             type="button"
-            onClick={() => {
-              resetFilters();
-              onClearCareer();
-            }}
+            className="cp-banner-close"
+            onClick={() => setEnrollMessage("")}
+            aria-label="Dismiss message"
           >
-            Show all courses
+            ×
           </button>
         </div>
       )}
 
-      <p>
-        Explore courses to develop your career skills.
-        Courses with a higher share of skills missing from
-        your profile appear first.
-      </p>
-
-      {!hasProfileSkills ? (
-        <p>
-          Add your current skills in My Profile to
-          personalize recommendations.
-        </p>
-      ) : (
-        <label className="cp-course-filter">
-          <input
-            type="checkbox"
-            checked={recommendedOnly}
-            onChange={(event) =>
-              setRecommendedOnly(event.target.checked)
-            }
-          />
-          Show only courses with new skills
-        </label>
-      )}
-
-      {enrollMessage && (
-        <p role="status">{enrollMessage}</p>
-      )}
-
       {enrollError && (
-        <p role="alert">{enrollError}</p>
+        <div className="cp-banner-error" role="alert">
+          <span>⚠</span>
+          <p>{enrollError}</p>
+          <button
+            type="button"
+            className="cp-banner-close"
+            onClick={() => setEnrollError("")}
+            aria-label="Dismiss error"
+          >
+            ×
+          </button>
+        </div>
       )}
 
       {loading && (
-        <p role="status">Loading courses...</p>
+        <p className="cp-loading-text" role="status">Loading courses...</p>
       )}
 
       {!loading && error && (
-        <div>
+        <div className="cp-status-block">
           <p role="alert">{error}</p>
-
           <button
             type="button"
+            className="cp-btn-secondary"
             onClick={() => setAttempt((value) => value + 1)}
           >
             Try again
@@ -399,92 +464,98 @@ export default function SkillDevelopment({
 
       {!loading && !error && (
         <>
-          <p role="status">
-            Showing {visibleCourses.length} of {courses.length} courses
+          <p className="cp-count-summary" role="status">
+            Showing {sortedCourses.length} of {courses.length} courses
           </p>
 
           {courses.length === 0 && (
-            <p>No courses have been added yet.</p>
+            <p className="cp-empty-text">No courses have been added yet.</p>
           )}
 
-          {courses.length > 0 && visibleCourses.length === 0 && (
-            <p>
+          {courses.length > 0 && sortedCourses.length === 0 && (
+            <p className="cp-empty-text">
               No courses match the current filters.
               Try resetting filters
-              {targetCareer
-                ? " or clearing your target career."
-                : "."}
+              {targetCareer ? " or clearing your target career." : "."}
             </p>
           )}
 
           <div className="cp-cards">
-            {visibleCourses.map((course) => {
+            {sortedCourses.map((course) => {
               const isEnrolled =
                 enrolledCourseIds.includes(course._id);
 
               return (
                 <article
-                  className="cp-card"
+                  className="cp-card cp-course-card"
                   key={course._id}
                 >
-                  <span className="cp-course-level">
-                    {course.level}
-                  </span>
+                  <div className="cp-thumbnail-container">
+                    <img
+                      src={getCourseImage(course.title)}
+                      alt={`${course.title} thumbnail`}
+                      className="cp-card-thumbnail"
+                      width="400"
+                      height="200"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.src = courseDefault;
+                      }}
+                    />
+                    <span className={`cp-level-badge cp-level-${String(course.level).toLowerCase()}`}>
+                      {course.level}
+                    </span>
+                  </div>
 
-                  <h3>{course.title}</h3>
-                  <p>{course.description}</p>
+                  <div className="cp-card-body">
+                    <h3>{course.title}</h3>
+                    <p className="cp-card-description">{course.description}</p>
 
-                  <h4>Skills you will develop</h4>
-
-                  {course.courseSkills.length > 0 ? (
-                    <ul>
-                      {course.courseSkills.map((skill) => (
-                        <li key={normalizeSkill(skill)}>
-                          {skill}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p>No course skills have been listed yet.</p>
-                  )}
-
-                  {hasProfileSkills &&
-                    course.courseSkills.length > 0 && (
-                      <>
-                        <h4>New skills for you</h4>
-
-                        {course.newSkills.length > 0 ? (
-                          <ul>
-                            {course.newSkills.map((skill) => (
-                              <li key={normalizeSkill(skill)}>
-                                {skill}
-                              </li>
-                            ))}
-                          </ul>
-                        ) : (
-                          <p>
-                            All listed course skills are already
-                            in your profile.
-                          </p>
-                        )}
-                      </>
+                    <h4>Skills You Will Develop</h4>
+                    {course.courseSkills.length > 0 ? (
+                      <ul className="cp-skill-pills">
+                        {course.courseSkills.map((skill) => (
+                          <li key={normalizeSkill(skill)} className="cp-pill-general">
+                            {skill}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="cp-subtle-text">No course skills specified.</p>
                     )}
 
-                  <button
-                    type="button"
-                    disabled={
-                      enrollingId !== null || isEnrolled
-                    }
-                    onClick={() => handleEnroll(course._id)}
-                  >
-                    {isEnrolled
-                      ? "Enrolled"
-                      : enrollingId === course._id
-                        ? "Enrolling..."
-                        : "Enroll"}
-                  </button>
+                    {hasProfileSkills && course.courseSkills.length > 0 && (
+                      <div className="cp-new-skills-box">
+                        <span className="cp-new-skills-title">New for your profile:</span>
+                        {course.newSkills.length > 0 ? (
+                          <span className="cp-new-skills-list">
+                            {course.newSkills.join(", ")}
+                          </span>
+                        ) : (
+                          <span className="cp-new-skills-none">
+                            All listed skills match your profile
+                          </span>
+                        )}
+                      </div>
+                    )}
 
-                  <CourseLessons courseTitle={course.title} />
+                    <button
+                      type="button"
+                      className={isEnrolled ? "cp-btn-enrolled" : "cp-btn-primary cp-btn-full"}
+                      disabled={
+                        enrollingId !== null || isEnrolled
+                      }
+                      onClick={() => handleEnroll(course._id)}
+                    >
+                      {isEnrolled
+                        ? "✓ Enrolled (In Progress)"
+                        : enrollingId === course._id
+                          ? "Enrolling..."
+                          : "Enroll in Course"}
+                    </button>
+
+                    <CourseLessons courseTitle={course.title} />
+                  </div>
                 </article>
               );
             })}

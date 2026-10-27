@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" fill="none" role="img" aria-label="Database Fundamentals Course Thumbnail">
+  <defs>
+    <linearGradient id="cdb-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#065f46" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="200" rx="10" fill="url(#cdb-bg)" />
+  <circle cx="340" cy="150" r="70" fill="#ffffff" fill-opacity="0.08" />
+
+  <!-- Database Cylinders -->
+  <g transform="translate(145, 38)">
+    <rect width="110" height="124" rx="14" fill="#0f172a" stroke="#34d399" stroke-width="1.5" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.3))" />
+
+    <!-- Disc 1 -->
+    <ellipse cx="55" cy="32" rx="36" ry="12" fill="#34d399" />
+    <path d="M 19 32 L 19 46 C 19 53, 91 53, 91 46 L 91 32 Z" fill="#059669" />
+
+    <!-- Disc 2 -->
+    <path d="M 19 58 L 19 72 C 19 79, 91 79, 91 72 L 91 58 Z" fill="#10b981" />
+
+    <!-- Disc 3 -->
+    <path d="M 19 84 L 19 98 C 19 105, 91 105, 91 98 L 91 84 Z" fill="#34d399" />
+  </g>
+
+  <text x="30" y="115" font-family="'Fira Code', monospace" font-size="20" fill="#ffffff" fill-opacity="0.25">SELECT *</text>
+  <text x="285" y="115" font-family="'Fira Code', monospace" font-size="20" fill="#ffffff" fill-opacity="0.25">FROM db;</text>
+</svg>

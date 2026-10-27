@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" fill="none" role="img" aria-label="UI/UX Designer Career Thumbnail">
+  <defs>
+    <linearGradient id="ux-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+    <linearGradient id="ux-card" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#faf5ff" />
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="220" rx="12" fill="url(#ux-bg)" />
+  <circle cx="50" cy="50" r="70" fill="#ffffff" fill-opacity="0.08" />
+
+  <!-- Figma Canvas & Prototype Artboard -->
+  <g transform="translate(45, 25)">
+    <!-- Canvas background -->
+    <rect width="310" height="170" rx="10" fill="#1e1e1e" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.3))" />
+
+    <!-- Figma toolbar -->
+    <rect width="310" height="24" rx="10" fill="#2c2c2c" />
+    <circle cx="16" cy="12" r="3" fill="#ff5f56" />
+    <circle cx="26" cy="12" r="3" fill="#ffbd2e" />
+    <circle cx="36" cy="12" r="3" fill="#27c93f" />
+    <text x="50" y="15" font-family="system-ui, sans-serif" font-size="9" fill="#a1a1aa">CareerPath App UI Wireframe</text>
+
+    <!-- Artboard 1: Mobile Screen Prototype -->
+    <g transform="translate(25, 34)">
+      <rect width="70" height="122" rx="8" fill="#ffffff" stroke="#71717a" stroke-width="0.8" />
+      <!-- Notch -->
+      <rect x="25" y="4" width="20" height="3" rx="1.5" fill="#e4e4e7" />
+      <!-- Header -->
+      <circle cx="15" cy="18" r="5" fill="#a855f7" />
+      <rect x="25" y="15" width="30" height="4" rx="2" fill="#d4d4d8" />
+      <!-- Hero card -->
+      <rect x="8" y="28" width="54" height="26" rx="4" fill="#f3e8ff" />
+      <rect x="12" y="34" width="32" height="4" rx="2" fill="#9333ea" />
+      <rect x="12" y="42" width="22" height="3" rx="1.5" fill="#c084fc" />
+      <!-- Feed items -->
+      <rect x="8" y="60" width="54" height="16" rx="3" fill="#fafafa" stroke="#f4f4f5" />
+      <circle cx="14" cy="68" r="3" fill="#ec4899" />
+      <rect x="22" y="66" width="34" height="3" rx="1.5" fill="#a1a1aa" />
+      <!-- Nav bar -->
+      <rect x="8" y="106" width="54" height="10" rx="3" fill="#f4f4f5" />
+      <circle cx="18" cy="111" r="2" fill="#9333ea" />
+      <circle cx="35" cy="111" r="2" fill="#a1a1aa" />
+      <circle cx="52" cy="111" r="2" fill="#a1a1aa" />
+    </g>
+
+    <!-- Artboard 2: Color Palette & Components -->
+    <g transform="translate(110, 36)">
+      <rect width="175" height="118" rx="8" fill="#27272a" stroke="#3f3f46" stroke-width="0.8" />
+
+      <!-- Palette Swatches -->
+      <text x="14" y="20" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#e4e4e7">Design Tokens</text>
+      <circle cx="22" cy="38" r="10" fill="#4361e5" />
+      <circle cx="50" cy="38" r="10" fill="#7355db" />
+      <circle cx="78" cy="38" r="10" fill="#ec4899" />
+      <circle cx="106" cy="38" r="10" fill="#10b981" />
+
+      <!-- UI Component: Button Variant -->
+      <rect x="14" y="58" width="90" height="22" rx="6" fill="#7355db" />
+      <text x="32" y="72" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#ffffff">Get Started →</text>
+
+      <!-- UI Component: Badge Variant -->
+      <rect x="110" y="58" width="50" height="22" rx="6" fill="#fdf2f8" stroke="#fbcfe8" />
+      <text x="118" y="72" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#db2777">Design</text>
+
+      <!-- Sliders / controls -->
+      <rect x="14" y="92" width="146" height="5" rx="2.5" fill="#3f3f46" />
+      <rect x="14" y="92" width="90" height="5" rx="2.5" fill="#a855f7" />
+      <circle cx="104" cy="94.5" r="5" fill="#ffffff" />
+    </g>
+
+    <!-- Design Pointer Cursor -->
+    <g transform="translate(112, 110)">
+      <path d="M 0 0 L 12 12 L 6 13 L 9 20 L 6 21 L 3 14 L -4 18 Z" fill="#ffffff" stroke="#000000" stroke-width="1.2" />
+    </g>
+  </g>
+</svg>

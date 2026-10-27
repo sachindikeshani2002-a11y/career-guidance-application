@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" fill="none" role="img" aria-label="Course Learning Thumbnail">
+  <defs>
+    <linearGradient id="cdef-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4361e5" />
+      <stop offset="100%" stop-color="#7355db" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="200" rx="10" fill="url(#cdef-bg)" />
+  <circle cx="340" cy="50" r="70" fill="#ffffff" fill-opacity="0.1" />
+  <circle cx="60" cy="150" r="60" fill="#ffffff" fill-opacity="0.08" />
+
+  <!-- Graduation Cap & Certificate Emblem -->
+  <g transform="translate(130, 40)">
+    <rect width="140" height="120" rx="14" fill="#ffffff" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.25))" />
+
+    <!-- Mortarboard Cap -->
+    <path d="M 70 30 L 115 48 L 70 66 L 25 48 Z" fill="#4361e5" />
+    <polygon points="45,58 45,74 70,84 95,74 95,58 70,68" fill="#3655d5" />
+    <path d="M 115 48 L 115 76 L 111 82" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" fill="none" />
+    <circle cx="111" cy="84" r="3" fill="#f59e0b" />
+
+    <rect x="30" y="94" width="80" height="6" rx="3" fill="#e2e8f0" />
+    <rect x="45" y="104" width="50" height="6" rx="3" fill="#e2e8f0" />
+  </g>
+</svg>

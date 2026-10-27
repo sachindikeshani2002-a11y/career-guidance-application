@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" fill="none" role="img" aria-label="Git Course Thumbnail">
+  <defs>
+    <linearGradient id="cgit-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ea580c" />
+      <stop offset="100%" stop-color="#c2410c" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="200" rx="10" fill="url(#cgit-bg)" />
+  <circle cx="60" cy="50" r="70" fill="#ffffff" fill-opacity="0.08" />
+
+  <!-- Git Branching Node Tree -->
+  <g transform="translate(130, 45)">
+    <rect width="140" height="110" rx="14" fill="#18181b" stroke="#fb923c" stroke-width="1.5" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.3))" />
+
+    <!-- Main branch line -->
+    <line x1="45" y1="25" x2="45" y2="85" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+
+    <!-- Feature branch line -->
+    <path d="M 45 40 C 70 40, 95 50, 95 65 L 95 85" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" fill="none" />
+
+    <!-- Commits -->
+    <circle cx="45" cy="30" r="7" fill="#f97316" stroke="#ffffff" stroke-width="2" />
+    <circle cx="45" cy="80" r="7" fill="#f97316" stroke="#ffffff" stroke-width="2" />
+    <circle cx="95" cy="75" r="7" fill="#38bdf8" stroke="#ffffff" stroke-width="2" />
+  </g>
+
+  <text x="35" y="115" font-family="'Fira Code', monospace" font-size="20" fill="#ffffff" fill-opacity="0.25">git commit</text>
+  <text x="290" y="115" font-family="'Fira Code', monospace" font-size="20" fill="#ffffff" fill-opacity="0.25">git merge</text>
+</svg>

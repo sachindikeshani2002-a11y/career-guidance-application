@@ -6,6 +6,7 @@ import SkillDevelopment from "./SkillDevelopment";
 import MyProgress from "./MyProgress";
 import MyProfile from "./MyProfile";
 import ProgressSummary from "./ProgressSummary";
+import CourseManagement from "./CourseManagement";
 
 export default function Dashboard({ token, onLogout }) {
   const [user, setUser] = useState(null);
@@ -194,8 +195,12 @@ export default function Dashboard({ token, onLogout }) {
 
   if (!user) return null;
 
+  const isAdmin = user.role === "admin";
+
+  // Show Admin Navigation only for authenticated admins
   const tabs = [
     "Overview",
+    ...(isAdmin ? ["Course Management"] : []),
     "My Profile",
     "Career Paths",
     "Skill Development",
@@ -203,6 +208,14 @@ export default function Dashboard({ token, onLogout }) {
   ];
 
   const overviewCards = [
+    ...(isAdmin
+      ? [
+          {
+            title: "Course Management",
+            text: "Create new courses, edit catalog details, and safely manage unreferenced courses.",
+          },
+        ]
+      : []),
     {
       title: "Career Paths",
       text: "Compare your skills with career requirements and find skills to develop.",
@@ -260,13 +273,17 @@ export default function Dashboard({ token, onLogout }) {
         <header className="cp-header">
           <div>
             <p className="cp-eyebrow">
-              STUDENT DASHBOARD
+              {isAdmin
+                ? "ADMINISTRATOR DASHBOARD"
+                : "STUDENT DASHBOARD"}
             </p>
 
             <h1>Welcome, {user.name}!</h1>
 
             <p>
-              Explore your interests and plan your next step.
+              {isAdmin
+                ? "Manage university career guidance and course offerings."
+                : "Explore your interests and plan your next step."}
             </p>
           </div>
 
@@ -295,9 +312,13 @@ export default function Dashboard({ token, onLogout }) {
 
               <button
                 type="button"
-                onClick={() => setActiveTab("My Profile")}
+                onClick={() =>
+                  setActiveTab(
+                    isAdmin ? "Course Management" : "My Profile"
+                  )
+                }
               >
-                View my profile
+                {isAdmin ? "Manage course catalog" : "View my profile"}
               </button>
             </section>
 
@@ -344,6 +365,13 @@ export default function Dashboard({ token, onLogout }) {
               ))}
             </section>
           </>
+        )}
+
+        {activeTab === "Course Management" && isAdmin && (
+          <CourseManagement
+            token={token}
+            onLogout={onLogout}
+          />
         )}
 
         {activeTab === "My Profile" && (
