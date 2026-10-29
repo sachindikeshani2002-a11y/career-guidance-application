@@ -883,7 +883,9 @@
   overflow-x: auto;
 }
 
-/* Modals & Dialogs */
+/* ========================================================
+   Modals & Dialogs (Course Management Add/Edit & Delete)
+   ======================================================== */
 .cp-modal-overlay {
   position: fixed;
   inset: 0;
@@ -893,50 +895,280 @@
   justify-content: center;
   z-index: 1000;
   padding: 20px;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
+  box-sizing: border-box;
 }
 
 .cp-modal-content {
   background: #ffffff;
   border-radius: 16px;
   width: 100%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 28px;
-  box-shadow: var(--cp-shadow-md);
+  max-width: 620px;
+  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.22);
+  overflow: hidden;
+  padding: 0;
+  animation: cpModalFadeIn 0.18s ease-out;
+}
+
+@keyframes cpModalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .cp-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 16px;
+  padding: 20px 24px;
   border-bottom: 1px solid var(--cp-border);
-  margin-bottom: 20px;
+  background: #ffffff;
+  flex-shrink: 0;
+  margin: 0;
 }
 
 .cp-modal-header h3 {
   margin: 0;
-  font-size: 20px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--cp-text-main);
+  line-height: 1.3;
 }
 
 .cp-modal-close {
   background: transparent;
   border: 0;
-  font-size: 24px;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 22px;
   line-height: 1;
   color: var(--cp-text-muted);
   cursor: pointer;
+  transition: all 0.15s ease;
 }
 
+.cp-modal-close:hover:not(:disabled) {
+  background: #f1f5f9;
+  color: var(--cp-text-main);
+}
+
+.cp-course-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  margin: 0;
+}
+
+.cp-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cp-course-form .cp-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.cp-course-form label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #334155;
+  margin-bottom: 7px;
+  line-height: 1.3;
+}
+
+.cp-course-form .cp-required {
+  color: var(--cp-danger);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline;
+}
+
+/* Form Inputs, Dropdown & Textarea */
+.cp-course-form input[type="text"],
+.cp-course-form select {
+  box-sizing: border-box;
+  width: 100%;
+  height: 44px;
+  padding: 10px 14px;
+  border: 1px solid #dce2ee;
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--cp-text-main);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cp-course-form select {
+  cursor: pointer;
+}
+
+.cp-course-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  padding: 11px 14px;
+  border: 1px solid #dce2ee;
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--cp-text-main);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cp-course-form input[type="text"]:focus,
+.cp-course-form select:focus,
+.cp-course-form textarea:focus {
+  outline: none;
+  border-color: var(--cp-primary);
+  box-shadow: 0 0 0 3px rgba(67, 97, 229, 0.14);
+}
+
+.cp-course-form input[aria-invalid="true"],
+.cp-course-form textarea[aria-invalid="true"] {
+  border-color: var(--cp-danger);
+}
+
+.cp-course-form input[aria-invalid="true"]:focus,
+.cp-course-form textarea[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px rgba(198, 56, 75, 0.15);
+}
+
+/* Field Footers, Character Counters & Help Text */
+.cp-course-form .cp-field-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 6px;
+  min-height: 18px;
+}
+
+.cp-course-form .cp-char-count {
+  font-size: 12px;
+  color: var(--cp-text-muted);
+  white-space: nowrap;
+  margin-left: auto;
+  line-height: 1.4;
+}
+
+.cp-course-form .cp-field-help {
+  font-size: 12px;
+  color: var(--cp-text-muted);
+  margin-top: 6px;
+  display: block;
+  line-height: 1.4;
+}
+
+.cp-course-form .cp-field-error {
+  font-size: 12.5px;
+  color: var(--cp-danger);
+  font-weight: 600;
+  display: block;
+  line-height: 1.4;
+  margin-top: 6px;
+}
+
+.cp-course-form .cp-field-footer .cp-field-error {
+  margin-top: 0;
+}
+
+/* Modal Footer */
 .cp-modal-footer {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 24px;
-  padding-top: 18px;
+  padding: 16px 24px;
   border-top: 1px solid var(--cp-border);
+  background: #f8fafc;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+/* Delete Modal Body & Highlight */
+.cp-dialog-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 22px 24px;
+}
+
+.cp-dialog-body p {
+  margin: 0 0 10px;
+  color: #475569;
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.cp-dialog-highlight {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--cp-text-main);
+  background: #f8fafc;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border-left: 4px solid var(--cp-danger);
+  margin: 12px 0 16px !important;
+}
+
+.cp-notice-box {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #78350f;
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.cp-btn-danger {
+  padding: 11px 20px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--cp-danger);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.cp-btn-danger:hover:not(:disabled) {
+  background: #a82738;
+}
+
+.cp-btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* Banners */
@@ -1030,7 +1262,31 @@ textarea:focus-visible {
   .cp-course-controls > div {
     flex: 1 1 100% !important;
   }
+  .cp-modal-overlay {
+    padding: 10px;
+  }
   .cp-modal-content {
-    padding: 20px 16px;
+    max-height: calc(100vh - 20px);
+    max-height: calc(100dvh - 20px);
+    border-radius: 12px;
+  }
+  .cp-modal-header {
+    padding: 16px 18px;
+  }
+  .cp-modal-header h3 {
+    font-size: 17.5px;
+  }
+  .cp-modal-body {
+    padding: 18px 16px;
+    gap: 16px;
+  }
+  .cp-modal-footer {
+    padding: 14px 16px;
+  }
+  .cp-modal-footer button {
+    flex: 1;
+  }
+  .cp-dialog-body {
+    padding: 18px 16px;
   }
 }

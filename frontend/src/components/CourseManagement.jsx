@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getCourseImage, courseDefault } from "../utils/imageMapper";
 
 const API_BASE = "http://localhost:5001/api/courses";
@@ -92,6 +92,56 @@ export default function CourseManagement({ token, onLogout }) {
     return () => controller.abort();
   }, [token, onLogout, attempt]);
 
+  // Prevent background page scrolling while any modal is open, restoring when closed or unmounted
+  useEffect(() => {
+    const isModalOpen = formMode !== null || deletingCourse !== null;
+    if (!isModalOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    const originalPaddingRight = document.body.style.paddingRight;
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    if (scrollBarWidth > 0) {
+      document.body.style.paddingRight = `${scrollBarWidth}px`;
+    }
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.paddingRight = originalPaddingRight;
+    };
+  }, [formMode, deletingCourse]);
+
+  const handleCloseForm = useCallback(() => {
+    if (submitting) return;
+    setFormMode(null);
+    setFormErrors({});
+  }, [submitting]);
+
+  const handleCloseDelete = useCallback(() => {
+    if (deleting) return;
+    setDeletingCourse(null);
+  }, [deleting]);
+
+  // Keyboard accessibility: Close modals on Escape key when not submitting/deleting
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        if (formMode !== null && !submitting) {
+          handleCloseForm();
+        } else if (deletingCourse !== null && !deleting) {
+          handleCloseDelete();
+        }
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [formMode, deletingCourse, submitting, deleting, handleCloseForm, handleCloseDelete]);
+
   function refreshCourses() {
     setAttempt((v) => v + 1);
   }
@@ -175,12 +225,6 @@ export default function CourseManagement({ token, onLogout }) {
     setFormMode("edit");
   }
 
-  function handleCloseForm() {
-    if (submitting) return;
-    setFormMode(null);
-    setFormErrors({});
-  }
-
   // Submit Create or Update
   async function handleFormSubmit(event) {
     event.preventDefault();
@@ -261,11 +305,6 @@ export default function CourseManagement({ token, onLogout }) {
   function handleOpenDelete(course) {
     clearMessages();
     setDeletingCourse(course);
-  }
-
-  function handleCloseDelete() {
-    if (deleting) return;
-    setDeletingCourse(null);
   }
 
   // Execute Safe Delete
@@ -597,6 +636,11 @@ export default function CourseManagement({ token, onLogout }) {
           role="dialog"
           aria-modal="true"
           aria-labelledby="course-form-title"
+          onClick={(e) => {
+            if (e.target === e.currentTarget && !submitting) {
+              handleCloseForm();
+            }
+          }}
         >
           <div className="cp-modal-content">
             <div className="cp-modal-header">
@@ -621,90 +665,92 @@ export default function CourseManagement({ token, onLogout }) {
               onSubmit={handleFormSubmit}
               noValidate
             >
-              <div className="cp-form-group">
-                <label htmlFor="course-title-input">
-                  Course Title <span className="cp-required">*</span>
-                </label>
-                <input
-                  id="course-title-input"
-                  type="text"
-                  placeholder="e.g. Cloud Computing & Kubernetes"
-                  value={formData.title}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      title: e.target.value,
-                    })
-                  }
-                  required
-                  maxLength={100}
-                  disabled={submitting}
-                  aria-invalid={!!formErrors.title}
-                  aria-describedby={
-                    formErrors.title
-                      ? "course-title-error"
-                      : undefined
-                  }
-                />
-                {formErrors.title && (
-                  <span
-                    id="course-title-error"
-                    className="cp-field-error"
-                    role="alert"
-                  >
-                    {formErrors.title}
-                  </span>
-                )}
-                <small className="cp-char-count">
-                  {formData.title.length}/100 characters
-                </small>
-              </div>
+              <div className="cp-modal-body">
+                <div className="cp-form-group">
+                  <label htmlFor="course-title-input">
+                    Course Title <span className="cp-required" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    id="course-title-input"
+                    type="text"
+                    placeholder="e.g. Cloud Computing & Kubernetes"
+                    value={formData.title}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        title: e.target.value,
+                      })
+                    }
+                    required
+                    maxLength={100}
+                    disabled={submitting}
+                    aria-invalid={!!formErrors.title}
+                    aria-describedby={
+                      formErrors.title
+                        ? "course-title-error"
+                        : "course-title-count"
+                    }
+                  />
+                  <div className="cp-field-footer">
+                    {formErrors.title ? (
+                      <span
+                        id="course-title-error"
+                        className="cp-field-error"
+                        role="alert"
+                      >
+                        {formErrors.title}
+                      </span>
+                    ) : <span />}
+                    <small id="course-title-count" className="cp-char-count">
+                      {formData.title.length}/100 characters
+                    </small>
+                  </div>
+                </div>
 
-              <div className="cp-form-group">
-                <label htmlFor="course-desc-input">
-                  Description <span className="cp-required">*</span>
-                </label>
-                <textarea
-                  id="course-desc-input"
-                  rows={4}
-                  placeholder="Provide an overview of the curriculum and learning outcomes..."
-                  value={formData.description}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      description: e.target.value,
-                    })
-                  }
-                  required
-                  maxLength={1000}
-                  disabled={submitting}
-                  aria-invalid={!!formErrors.description}
-                  aria-describedby={
-                    formErrors.description
-                      ? "course-desc-error"
-                      : undefined
-                  }
-                />
-                {formErrors.description && (
-                  <span
-                    id="course-desc-error"
-                    className="cp-field-error"
-                    role="alert"
-                  >
-                    {formErrors.description}
-                  </span>
-                )}
-                <small className="cp-char-count">
-                  {formData.description.length}/1000 characters
-                  (minimum 10)
-                </small>
-              </div>
+                <div className="cp-form-group">
+                  <label htmlFor="course-desc-input">
+                    Description <span className="cp-required" aria-hidden="true">*</span>
+                  </label>
+                  <textarea
+                    id="course-desc-input"
+                    rows={5}
+                    placeholder="Provide an overview of the curriculum and learning outcomes..."
+                    value={formData.description}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        description: e.target.value,
+                      })
+                    }
+                    required
+                    maxLength={1000}
+                    disabled={submitting}
+                    aria-invalid={!!formErrors.description}
+                    aria-describedby={
+                      formErrors.description
+                        ? "course-desc-error"
+                        : "course-desc-count"
+                    }
+                  />
+                  <div className="cp-field-footer">
+                    {formErrors.description ? (
+                      <span
+                        id="course-desc-error"
+                        className="cp-field-error"
+                        role="alert"
+                      >
+                        {formErrors.description}
+                      </span>
+                    ) : <span />}
+                    <small id="course-desc-count" className="cp-char-count">
+                      {formData.description.length}/1000 characters (min 10)
+                    </small>
+                  </div>
+                </div>
 
-              <div className="cp-form-row">
                 <div className="cp-form-group">
                   <label htmlFor="course-level-input">
-                    Difficulty Level{" "}
-                    <span className="cp-required">*</span>
+                    Difficulty Level <span className="cp-required" aria-hidden="true">*</span>
                   </label>
                   <select
                     id="course-level-input"
@@ -718,14 +764,19 @@ export default function CourseManagement({ token, onLogout }) {
                     disabled={submitting}
                   >
                     <option value="Beginner">Beginner</option>
-                    <option value="Intermediate">
-                      Intermediate
-                    </option>
+                    <option value="Intermediate">Intermediate</option>
                     <option value="Advanced">Advanced</option>
                   </select>
+                  {formErrors.level && (
+                    <div className="cp-field-footer">
+                      <span className="cp-field-error" role="alert">
+                        {formErrors.level}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
-                <div className="cp-form-group cp-form-flex-2">
+                <div className="cp-form-group">
                   <label htmlFor="course-skills-input">
                     Skills Covered
                   </label>
@@ -743,12 +794,12 @@ export default function CourseManagement({ token, onLogout }) {
                     disabled={submitting}
                     aria-describedby="course-skills-help"
                   />
-                  <small id="course-skills-help">
-                    Separate skills with commas (max 20 skills, 60
-                    chars each).
+                  <small id="course-skills-help" className="cp-field-help">
+                    Separate skills with commas (max 20 skills, 60 characters each).
                   </small>
                   {formErrors.skills && (
                     <span
+                      id="course-skills-error"
                       className="cp-field-error"
                       role="alert"
                     >
@@ -793,6 +844,11 @@ export default function CourseManagement({ token, onLogout }) {
           role="dialog"
           aria-modal="true"
           aria-labelledby="delete-dialog-title"
+          onClick={(e) => {
+            if (e.target === e.currentTarget && !deleting) {
+              handleCloseDelete();
+            }
+          }}
         >
           <div className="cp-modal-content cp-modal-danger">
             <div className="cp-modal-header">
