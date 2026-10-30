@@ -402,8 +402,9 @@ export default function SkillDevelopment({
 
       {hasProfileSkills && (
         <div className="cp-filter-toggle-row">
-          <label className="cp-course-filter">
+          <label htmlFor="skills-recommended-only" className="cp-course-filter">
             <input
+              id="skills-recommended-only"
               type="checkbox"
               checked={recommendedOnly}
               onChange={(event) =>

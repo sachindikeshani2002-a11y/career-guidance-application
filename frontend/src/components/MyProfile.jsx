@@ -232,11 +232,11 @@ export default function MyProfile({
             value={interests}
             onChange={(event) => setInterests(event.target.value)}
             placeholder="e.g. Cloud Computing, Machine Learning, UI/UX Design"
-            rows={3}
+            rows={4}
             disabled={saving}
             aria-describedby="profile-interests-help"
           />
-          <small id="profile-interests-help">
+          <small id="profile-interests-help" className="cp-field-help">
             Separate items with commas. Up to 20 interests, max 60 characters each.
           </small>
           {parsedInterests.length > 0 && (
@@ -263,11 +263,11 @@ export default function MyProfile({
             value={skills}
             onChange={(event) => setSkills(event.target.value)}
             placeholder="e.g. JavaScript, Python, SQL, Git, Figma"
-            rows={3}
+            rows={4}
             disabled={saving}
             aria-describedby="profile-skills-help"
           />
-          <small id="profile-skills-help">
+          <small id="profile-skills-help" className="cp-field-help">
             Separate items with commas. Used directly to calculate Career Path match rates.
           </small>
           {parsedSkills.length > 0 && (

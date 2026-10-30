@@ -105,7 +105,7 @@ export default function ProgressSummary({ token, onLogout }) {
             <span className="cp-stat-tag">ENROLLED</span>
           </div>
           <p className="cp-stat-number">{total}</p>
-          <span className="cp-stat-subtext">Total active curriculum</span>
+          <span className="cp-stat-subtext">Total enrolled courses</span>
         </article>
 
         <article className="cp-card cp-stat-card">

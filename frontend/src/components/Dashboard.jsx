@@ -346,10 +346,10 @@ export default function Dashboard({ token, onLogout }) {
               </section>
             )}
 
-            <section className="cp-cards">
+            <section className="cp-cards cp-overview-cards" aria-label="Explore dashboard sections">
               {overviewCards.map((item) => (
                 <article
-                  className="cp-card"
+                  className="cp-card cp-overview-card"
                   key={item.title}
                 >
                   <h3>{item.title}</h3>
@@ -357,7 +357,9 @@ export default function Dashboard({ token, onLogout }) {
 
                   <button
                     type="button"
+                    className="cp-btn-primary cp-btn-explore"
                     onClick={() => setActiveTab(item.title)}
+                    aria-label={`Explore ${item.title}`}
                   >
                     Explore →
                   </button>
