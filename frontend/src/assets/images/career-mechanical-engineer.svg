@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" fill="none" role="img" aria-label="Mechanical Engineer Illustration">
+  <defs>
+    <linearGradient id="me-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f766e" />
+      <stop offset="100%" stop-color="#115e59" />
+    </linearGradient>
+    <linearGradient id="me-card" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#042f2e" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="me-gear-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="me-gear-teal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2dd4bf" />
+      <stop offset="100%" stop-color="#0d9488" />
+    </linearGradient>
+    <linearGradient id="me-steel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#475569" />
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="220" rx="12" fill="url(#me-bg)" />
+  <circle cx="350" cy="45" r="85" fill="#ffffff" fill-opacity="0.05" />
+  <circle cx="50" cy="180" r="75" fill="#ffffff" fill-opacity="0.05" />
+
+  <!-- CAD Workshop / Machine Window -->
+  <g transform="translate(45, 25)">
+    <rect width="310" height="170" rx="10" fill="url(#me-card)" stroke="#2dd4bf" stroke-width="1.2" stroke-opacity="0.4" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.3))" />
+
+    <!-- Window Header -->
+    <rect width="310" height="24" rx="10" fill="#021c1b" />
+    <circle cx="16" cy="12" r="3.5" fill="#2dd4bf" />
+    <circle cx="28" cy="12" r="3.5" fill="#5eead4" />
+    <circle cx="40" cy="12" r="3.5" fill="#99f6e4" />
+    <path d="M 60 12 L 130 12" stroke="#2dd4bf" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.6" />
+
+    <!-- Technical Pitch Circle Backdrop -->
+    <circle cx="115" cy="100" r="58" stroke="#14b8a6" stroke-width="0.8" stroke-dasharray="3 3" stroke-opacity="0.5" />
+    <circle cx="195" cy="75" r="42" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="3 3" stroke-opacity="0.5" />
+
+    <!-- Large Interlocking Driving Gear (Left) -->
+    <g transform="translate(115, 100)">
+      <!-- 12 Teeth Profile -->
+      <path d="M -12 -58 L 12 -58 L 10 -46 L 24 -43 L 36 -51 L 51 -36 L 43 -24 L 46 -10 L 58 -12 L 58 12 L 46 10 L 43 24 L 51 36 L 36 51 L 24 43 L 10 46 L 12 58 L -12 58 L -10 46 L -24 43 L -36 51 L -51 36 L -43 24 L -46 10 L -58 12 L -58 -12 L -46 -10 L -43 -24 L -51 -36 L -36 -51 L -24 -43 L -10 -46 Z" fill="url(#me-gear-teal)" stroke="#115e59" stroke-width="1" />
+      <circle cx="0" cy="0" r="36" fill="#042f2e" stroke="#2dd4bf" stroke-width="1" />
+      <circle cx="0" cy="-22" r="6.5" fill="#0f172a" stroke="#14b8a6" stroke-width="0.8" />
+      <circle cx="19" cy="-11" r="6.5" fill="#0f172a" stroke="#14b8a6" stroke-width="0.8" />
+      <circle cx="19" cy="11" r="6.5" fill="#0f172a" stroke="#14b8a6" stroke-width="0.8" />
+      <circle cx="0" cy="22" r="6.5" fill="#0f172a" stroke="#14b8a6" stroke-width="0.8" />
+      <circle cx="-19" cy="11" r="6.5" fill="#0f172a" stroke="#14b8a6" stroke-width="0.8" />
+      <circle cx="-19" cy="-11" r="6.5" fill="#0f172a" stroke="#14b8a6" stroke-width="0.8" />
+      <circle cx="0" cy="0" r="14" fill="url(#me-steel)" stroke="#cbd5e1" stroke-width="1" />
+      <rect x="-3" y="-5" width="6" height="10" rx="1" fill="#0f172a" />
+    </g>
+
+    <!-- Medium Driven Gear (Center-Right) -->
+    <g transform="translate(195, 75)">
+      <!-- 8 Teeth Profile -->
+      <path d="M -9 -42 L 9 -42 L 8 -32 L 21 -25 L 32 -32 L 40 -20 L 28 -12 L 32 0 L 28 12 L 40 20 L 32 32 L 21 25 L 8 32 L 9 42 L -9 42 L -8 32 L -21 25 L -32 32 L -40 20 L -28 12 L -32 0 L -28 -12 L -40 -20 L -32 -32 L -21 -25 L -8 -32 Z" fill="url(#me-gear-gold)" stroke="#b45309" stroke-width="1" />
+      <circle cx="0" cy="0" r="24" fill="#042f2e" stroke="#f59e0b" stroke-width="1" />
+      <circle cx="0" cy="0" r="10" fill="url(#me-steel)" stroke="#cbd5e1" stroke-width="1" />
+      <circle cx="0" cy="0" r="4" fill="#0f172a" />
+    </g>
+
+    <!-- Mechanical Piston Assembly (Right) -->
+    <g transform="translate(242, 60)">
+      <rect x="0" y="0" width="46" height="85" rx="3" fill="#0b1728" stroke="#64748b" stroke-width="1" />
+      <line x1="8" y1="10" x2="8" y2="75" stroke="#334155" stroke-width="1" stroke-dasharray="2 2" />
+      <line x1="38" y1="10" x2="38" y2="75" stroke="#334155" stroke-width="1" stroke-dasharray="2 2" />
+
+      <!-- Piston Head -->
+      <rect x="6" y="16" width="34" height="24" rx="2" fill="url(#me-steel)" stroke="#cbd5e1" stroke-width="1" />
+      <line x1="6" y1="22" x2="40" y2="22" stroke="#1e293b" stroke-width="1" />
+      <line x1="6" y1="26" x2="40" y2="26" stroke="#1e293b" stroke-width="1" />
+
+      <!-- Gudgeon Pin -->
+      <circle cx="23" cy="30" r="4" fill="#f59e0b" stroke="#ffffff" stroke-width="1" />
+
+      <!-- Connecting Rod -->
+      <path d="M 20 32 L 18 68 L 28 68 L 26 32 Z" fill="url(#me-steel)" stroke="#64748b" stroke-width="1" />
+      <!-- Big End Crank Pin -->
+      <circle cx="23" cy="72" r="8" fill="#14b8a6" stroke="#042f2e" stroke-width="1.5" />
+      <circle cx="23" cy="72" r="3.5" fill="#f8fafc" />
+    </g>
+
+    <!-- Calipers / Micrometer Gauge (Bottom Left) -->
+    <g transform="translate(25, 134)">
+      <rect x="0" y="6" width="65" height="12" rx="2" fill="url(#me-steel)" stroke="#cbd5e1" stroke-width="0.8" />
+      <path d="M 0 6 L 0 24 L 6 24 L 6 18 L 65 18 L 65 6 Z" fill="url(#me-steel)" />
+      <rect x="24" y="2" width="14" height="22" rx="2" fill="#2dd4bf" stroke="#0f766e" stroke-width="0.8" />
+      <line x1="28" y1="6" x2="28" y2="12" stroke="#042f2e" stroke-width="1" />
+      <line x1="31" y1="6" x2="31" y2="10" stroke="#042f2e" stroke-width="1" />
+      <line x1="34" y1="6" x2="34" y2="12" stroke="#042f2e" stroke-width="1" />
+    </g>
+  </g>
+</svg>

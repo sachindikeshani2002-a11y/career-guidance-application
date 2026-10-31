@@ -473,13 +473,49 @@ export default function SkillDevelopment({
             <p className="cp-empty-text">No courses have been added yet.</p>
           )}
 
-          {courses.length > 0 && sortedCourses.length === 0 && (
-            <p className="cp-empty-text">
-              No courses match the current filters.
-              Try resetting filters
-              {targetCareer ? " or clearing your target career." : "."}
-            </p>
+          {targetCareer && careerCourses.length === 0 && (
+            <div className="cp-no-courses-notice" role="status">
+              <span className="cp-notice-icon" aria-hidden="true">
+                📚
+              </span>
+              <div>
+                <h4>Relevant Courses Not Yet Available</h4>
+                <p>
+                  There are currently no courses in the active university catalog
+                  teaching the skills required for{" "}
+                  <strong>{targetCareer.title}</strong>
+                  {missingCareerSkills.length > 0
+                    ? ` (${missingCareerSkills.join(", ")})`
+                    : ""}
+                  .
+                </p>
+                <p>
+                  Curriculum offerings for {targetCareer.field || "this field"}{" "}
+                  are currently being planned. You can clear your active target
+                  career to browse general foundational courses.
+                </p>
+                <button
+                  type="button"
+                  className="cp-btn-secondary cp-btn-sm"
+                  onClick={() => {
+                    resetFilters();
+                    onClearCareer();
+                  }}
+                >
+                  Clear Target Career Filter
+                </button>
+              </div>
+            </div>
           )}
+
+          {courses.length > 0 &&
+            sortedCourses.length === 0 &&
+            (!targetCareer || careerCourses.length > 0) && (
+              <p className="cp-empty-text">
+                No courses match the current filters. Try resetting filters
+                {targetCareer ? " or clearing your target career." : "."}
+              </p>
+            )}
 
           <div className="cp-cards">
             {sortedCourses.map((course) => {

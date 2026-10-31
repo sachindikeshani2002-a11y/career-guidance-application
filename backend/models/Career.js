@@ -8,6 +8,11 @@ const careerSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    field: {
+      type: String,
+      trim: true,
+      default: "General",
+    },
     description: {
       type: String,
       required: true,
@@ -16,6 +21,20 @@ const careerSchema = new mongoose.Schema(
     skills: {
       type: [String],
       default: [],
+    },
+    responsibilities: {
+      type: [String],
+      default: [],
+    },
+    educationGuidance: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    disclaimer: {
+      type: String,
+      trim: true,
+      default: "",
     },
   },
   { timestamps: true }

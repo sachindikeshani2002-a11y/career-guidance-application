@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const User = require("../models/User");
 
-
 async function authMiddleware(req, res, next) {
   const authorization = req.headers.authorization || "";
   const match = /^Bearer ([^\s]+)$/i.exec(authorization);
@@ -36,9 +35,12 @@ async function authMiddleware(req, res, next) {
   }
 
   try {
-   const user = await User.findById(payload.sub)
-  .select("_id name email role interests skills targetCareer")
-  .populate("targetCareer", "title description skills");
+    const user = await User.findById(payload.sub)
+      .select("_id name email role interests skills targetCareer")
+      .populate(
+        "targetCareer",
+        "title field description skills responsibilities educationGuidance disclaimer"
+      );
 
     if (!user) {
       return res.status(401).json({
@@ -56,6 +58,5 @@ async function authMiddleware(req, res, next) {
     });
   }
 }
-
 
 module.exports = authMiddleware;

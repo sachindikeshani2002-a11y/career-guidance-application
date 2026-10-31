@@ -4,12 +4,28 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
+function escapeRegex(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 // GET /api/careers
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    const careers = await Career.find()
+    const filter = {};
+    if (
+      typeof req.query.field === "string" &&
+      req.query.field.trim() &&
+      req.query.field !== "All" &&
+      req.query.field !== "All Fields"
+    ) {
+      filter.field = new RegExp(`^${escapeRegex(req.query.field.trim())}$`, "i");
+    }
+
+    const careers = await Career.find(filter)
       .sort({ title: 1 })
-      .select("title description skills")
+      .select(
+        "title field description skills responsibilities educationGuidance disclaimer"
+      )
       .lean();
 
     return res.json({ careers });

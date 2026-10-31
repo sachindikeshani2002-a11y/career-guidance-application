@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" fill="none" role="img" aria-label="Marketing Executive Illustration">
+  <defs>
+    <linearGradient id="me-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e11d48" />
+      <stop offset="100%" stop-color="#881337" />
+    </linearGradient>
+    <linearGradient id="me-card" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f8fafc" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="220" rx="12" fill="url(#me-bg)" />
+  <circle cx="340" cy="40" r="75" fill="#ffffff" fill-opacity="0.06" />
+  <circle cx="50" cy="180" r="65" fill="#ffffff" fill-opacity="0.05" />
+
+  <!-- Concentric Target Bullseye & Crosshairs (Left) -->
+  <g transform="translate(42, 30)">
+    <!-- Outer Target Ring -->
+    <circle cx="75" cy="78" r="68" fill="#ffffff" fill-opacity="0.12" stroke="#ffffff" stroke-width="2" stroke-opacity="0.4" />
+    <circle cx="75" cy="78" r="50" fill="#ffffff" fill-opacity="0.18" stroke="#ffffff" stroke-width="2" stroke-opacity="0.6" />
+    <circle cx="75" cy="78" r="32" fill="#ffffff" fill-opacity="0.3" stroke="#ffffff" stroke-width="2" stroke-opacity="0.8" />
+    <!-- Bullseye Center -->
+    <circle cx="75" cy="78" r="15" fill="#fbbf24" stroke="#d97706" stroke-width="2" />
+    <circle cx="75" cy="78" r="6" fill="#dc2626" />
+
+    <!-- Crosshairs -->
+    <line x1="75" y1="2" x2="75" y2="154" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.7" />
+    <line x1="0" y1="78" x2="150" y2="78" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.7" />
+
+    <!-- Direct Hit Arrow -->
+    <g transform="translate(75, 78) rotate(-45)">
+      <line x1="-35" y1="0" x2="0" y2="0" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" />
+      <polygon points="0,0 -8,-5 -8,5" fill="#fbbf24" />
+      <path d="M-35 0 L-42 -6 M-35 0 L-42 6 M-30 0 L-37 -6 M-30 0 L-37 6" stroke="#f8fafc" stroke-width="2" stroke-linecap="round" />
+    </g>
+
+    <!-- Floating Audience Segment Tag 1 -->
+    <g transform="translate(2, 10)">
+      <rect width="60" height="16" rx="4" fill="#ffffff" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.2))" />
+      <circle cx="8" cy="8" r="3" fill="#e11d48" />
+      <line x1="16" y1="8" x2="52" y2="8" stroke="#881337" stroke-width="2" stroke-linecap="round" />
+    </g>
+
+    <!-- Floating Audience Segment Tag 2 -->
+    <g transform="translate(85, 130)">
+      <rect width="64" height="16" rx="4" fill="#ffffff" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.2))" />
+      <circle cx="8" cy="8" r="3" fill="#10b981" />
+      <line x1="16" y1="8" x2="56" y2="8" stroke="#047857" stroke-width="2" stroke-linecap="round" />
+    </g>
+  </g>
+
+  <!-- Strategic GTM Campaign Roadmap (Right) -->
+  <g transform="translate(205, 26)">
+    <rect width="165" height="168" rx="10" fill="url(#me-card)" stroke="#fda4af" stroke-width="1.2" stroke-opacity="0.5" filter="drop-shadow(0 10px 18px rgba(0,0,0,0.28))" />
+
+    <!-- Card Top Header -->
+    <rect width="165" height="26" rx="10" fill="#fff1f2" />
+    <circle cx="14" cy="13" r="3" fill="#e11d48" />
+    <line x1="24" y1="13" x2="88" y2="13" stroke="#9f1239" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Strategic GTM Roadmap Timeline -->
+    <g transform="translate(14, 38)">
+      <rect width="137" height="42" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+      <line x1="10" y1="12" x2="70" y2="12" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+
+      <!-- Timeline Phase Bars -->
+      <g transform="translate(10, 20)">
+        <rect x="0" y="0" width="36" height="12" rx="3" fill="#fb7185" />
+        <line x1="6" y1="6" x2="30" y2="6" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+
+        <rect x="40" y="0" width="46" height="12" rx="3" fill="#e11d48" />
+        <line x1="46" y1="6" x2="80" y2="6" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+
+        <rect x="90" y="0" width="27" height="12" rx="3" fill="#4f46e5" />
+        <line x1="94" y1="6" x2="113" y2="6" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+      </g>
+    </g>
+
+    <!-- Multi-Channel Campaign Performance Radar / Bars -->
+    <g transform="translate(14, 90)">
+      <!-- Channel 1: Brand Awareness -->
+      <rect x="0" y="0" width="137" height="18" rx="4" fill="#fff1f2" />
+      <circle cx="10" cy="9" r="3" fill="#e11d48" />
+      <line x1="18" y1="9" x2="65" y2="9" stroke="#9f1239" stroke-width="2" stroke-linecap="round" />
+      <rect x="75" y="6" width="54" height="6" rx="3" fill="#fecdd3" />
+      <rect x="75" y="6" width="46" height="6" rx="3" fill="#e11d48" />
+
+      <!-- Channel 2: Lead Generation -->
+      <rect x="0" y="24" width="137" height="18" rx="4" fill="#f0fdf4" />
+      <circle cx="10" cy="33" r="3" fill="#16a34a" />
+      <line x1="18" y1="33" x2="65" y2="33" stroke="#14532d" stroke-width="2" stroke-linecap="round" />
+      <rect x="75" y="30" width="54" height="6" rx="3" fill="#bbf7d0" />
+      <rect x="75" y="30" width="40" height="6" rx="3" fill="#16a34a" />
+
+      <!-- Channel 3: Market Expansion -->
+      <rect x="0" y="48" width="137" height="18" rx="4" fill="#eff6ff" />
+      <circle cx="10" cy="57" r="3" fill="#2563eb" />
+      <line x1="18" y1="57" x2="65" y2="57" stroke="#1e3a8a" stroke-width="2" stroke-linecap="round" />
+      <rect x="75" y="54" width="54" height="6" rx="3" fill="#bfdbfe" />
+      <rect x="75" y="54" width="50" height="6" rx="3" fill="#2563eb" />
+    </g>
+  </g>
+</svg>

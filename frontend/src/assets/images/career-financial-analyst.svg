@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" fill="none" role="img" aria-label="Financial Analyst Illustration">
+  <defs>
+    <linearGradient id="fa-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="fa-card" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f8fafc" />
+    </linearGradient>
+    <linearGradient id="fa-glow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="220" rx="12" fill="url(#fa-bg)" />
+  <circle cx="340" cy="40" r="80" fill="#38bdf8" fill-opacity="0.04" />
+  <circle cx="50" cy="180" r="70" fill="#10b981" fill-opacity="0.04" />
+
+  <!-- Main Financial Analytics Window -->
+  <g transform="translate(35, 24)">
+    <rect width="330" height="172" rx="10" fill="url(#fa-card)" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.4" filter="drop-shadow(0 12px 20px rgba(0,0,0,0.35))" />
+
+    <!-- Terminal Top Bar -->
+    <rect width="330" height="30" rx="10" fill="#f1f5f9" />
+    <circle cx="16" cy="15" r="3.5" fill="#ef4444" />
+    <circle cx="28" cy="15" r="3.5" fill="#f59e0b" />
+    <circle cx="40" cy="15" r="3.5" fill="#10b981" />
+
+    <!-- Ticker Symbol & Trend Indicator -->
+    <g transform="translate(62, 8)">
+      <rect width="64" height="14" rx="3" fill="#e2e8f0" />
+      <line x1="8" y1="7" x2="56" y2="7" stroke="#0f172a" stroke-width="2" stroke-linecap="round" />
+    </g>
+
+    <!-- Upward Growth Badge (+18.4%) -->
+    <g transform="translate(240, 7)">
+      <rect width="76" height="16" rx="4" fill="#d1fae5" />
+      <!-- Up Arrow -->
+      <path d="M12 11l3.5-3.5 3.5 3.5 M15.5 7.5v6" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <line x1="24" y1="11" x2="68" y2="11" stroke="#047857" stroke-width="2" stroke-linecap="round" />
+    </g>
+
+    <!-- Financial Chart Workspace -->
+    <g transform="translate(18, 38)">
+      <!-- Background Grid -->
+      <line x1="0" y1="20" x2="294" y2="20" stroke="#f1f5f9" stroke-width="1" />
+      <line x1="0" y1="45" x2="294" y2="45" stroke="#f1f5f9" stroke-width="1" />
+      <line x1="0" y1="70" x2="294" y2="70" stroke="#f1f5f9" stroke-width="1" />
+      <line x1="0" y1="95" x2="294" y2="95" stroke="#e2e8f0" stroke-width="1.2" />
+
+      <!-- Candlestick Charts & Bars -->
+      <!-- Candle 1: Bearish -->
+      <line x1="20" y1="40" x2="20" y2="75" stroke="#ef4444" stroke-width="1.2" />
+      <rect x="16" y="48" width="8" height="18" rx="1.5" fill="#ef4444" />
+
+      <!-- Candle 2: Bullish -->
+      <line x1="44" y1="35" x2="44" y2="80" stroke="#10b981" stroke-width="1.2" />
+      <rect x="40" y="42" width="8" height="24" rx="1.5" fill="#10b981" />
+
+      <!-- Candle 3: Bullish Small -->
+      <line x1="68" y1="30" x2="68" y2="65" stroke="#10b981" stroke-width="1.2" />
+      <rect x="64" y="38" width="8" height="16" rx="1.5" fill="#10b981" />
+
+      <!-- Candle 4: Bearish Small -->
+      <line x1="92" y1="32" x2="92" y2="60" stroke="#ef4444" stroke-width="1.2" />
+      <rect x="88" y="36" width="8" height="12" rx="1.5" fill="#ef4444" />
+
+      <!-- Candle 5: Bullish Big -->
+      <line x1="116" y1="15" x2="116" y2="62" stroke="#10b981" stroke-width="1.2" />
+      <rect x="112" y="22" width="8" height="30" rx="1.5" fill="#10b981" />
+
+      <!-- Candle 6: Bullish Strong -->
+      <line x1="140" y1="10" x2="140" y2="50" stroke="#10b981" stroke-width="1.2" />
+      <rect x="136" y="16" width="8" height="24" rx="1.5" fill="#10b981" />
+
+      <!-- Area Chart & Trend Curve Overlay -->
+      <path d="M16 66 L44 54 L68 46 L92 42 L116 32 L140 22 L170 30 L200 15 L230 18 L260 8 L290 5" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+
+      <!-- Glow Under High Performance Trendline -->
+      <path d="M140 22 L170 30 L200 15 L230 18 L260 8 L290 5 L290 95 L140 95 Z" fill="url(#fa-glow)" />
+
+      <!-- Moving Average Dotted Secondary Line -->
+      <path d="M16 75 C60 68, 120 45, 180 35 C220 28, 250 18, 290 12" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="3 3" />
+
+      <!-- Indicator Marker on Peak -->
+      <circle cx="290" cy="5" r="4.5" fill="#10b981" stroke="#ffffff" stroke-width="1.5" />
+    </g>
+
+    <!-- Bottom Metric Panels (DCF, ROI, Portfolio KPIs) -->
+    <g transform="translate(18, 142)">
+      <!-- Metric 1: Valuation / Return -->
+      <rect x="0" y="0" width="90" height="20" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+      <circle cx="10" cy="10" r="3" fill="#2563eb" />
+      <rect x="20" y="8" width="58" height="4" rx="2" fill="#475569" />
+
+      <!-- Metric 2: Alpha / Volatility -->
+      <rect x="102" y="0" width="90" height="20" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+      <circle cx="112" cy="10" r="3" fill="#10b981" />
+      <rect x="122" y="8" width="58" height="4" rx="2" fill="#475569" />
+
+      <!-- Metric 3: Target Forecast -->
+      <rect x="204" y="0" width="90" height="20" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+      <circle cx="214" cy="10" r="3" fill="#f59e0b" />
+      <rect x="224" y="8" width="58" height="4" rx="2" fill="#475569" />
+    </g>
+  </g>
+</svg>

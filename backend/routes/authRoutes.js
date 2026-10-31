@@ -166,7 +166,10 @@ router.post("/login", async (req, res) => {
       email: email.trim().toLowerCase(),
     })
       .select("+password")
-      .populate("targetCareer", "title description skills");
+      .populate(
+        "targetCareer",
+        "title field description skills responsibilities educationGuidance disclaimer"
+      );
 
     if (!user) {
       return res.status(401).json({
@@ -245,7 +248,10 @@ router.patch("/profile", authMiddleware, async (req, res) => {
       { new: true, runValidators: true }
     )
       .select("_id name email role interests skills targetCareer")
-      .populate("targetCareer", "title description skills");
+      .populate(
+        "targetCareer",
+        "title field description skills responsibilities educationGuidance disclaimer"
+      );
 
     if (!user) {
       return res.status(401).json({
@@ -304,7 +310,10 @@ router.patch("/target-career", authMiddleware, async (req, res) => {
       { new: true, runValidators: true }
     )
       .select("_id name email role interests skills targetCareer")
-      .populate("targetCareer", "title description skills");
+      .populate(
+        "targetCareer",
+        "title field description skills responsibilities educationGuidance disclaimer"
+      );
 
     if (!user) {
       return res.status(401).json({

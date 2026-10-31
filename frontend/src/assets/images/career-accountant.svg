@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" fill="none" role="img" aria-label="Accountant Illustration">
+  <defs>
+    <linearGradient id="acc-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#047857" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </linearGradient>
+    <linearGradient id="acc-card" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f8fafc" />
+    </linearGradient>
+    <linearGradient id="calc-body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="220" rx="12" fill="url(#acc-bg)" />
+  <circle cx="340" cy="45" r="75" fill="#ffffff" fill-opacity="0.05" />
+  <circle cx="60" cy="175" r="65" fill="#ffffff" fill-opacity="0.05" />
+
+  <!-- Ledger Document (Left/Center) -->
+  <g transform="translate(35, 26)">
+    <!-- Shadow & Main Ledger Sheet -->
+    <rect width="210" height="168" rx="8" fill="url(#acc-card)" stroke="#6ee7b7" stroke-width="1.2" stroke-opacity="0.4" filter="drop-shadow(0 10px 20px rgba(0,0,0,0.3))" />
+
+    <!-- Ledger Header Bar -->
+    <rect width="210" height="30" rx="8" fill="#ecfdf5" />
+    <circle cx="16" cy="15" r="4" fill="#059669" />
+    <line x1="26" y1="15" x2="90" y2="15" stroke="#065f46" stroke-width="2.5" stroke-linecap="round" />
+    <rect x="140" y="8" width="55" height="14" rx="3" fill="#d1fae5" />
+    <line x1="148" y1="15" x2="187" y2="15" stroke="#047857" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Ledger Columns Header (Date | Description | Debit | Credit) -->
+    <g transform="translate(14, 38)">
+      <line x1="0" y1="14" x2="182" y2="14" stroke="#e2e8f0" stroke-width="1.2" />
+      <!-- Col Headers -->
+      <rect x="2" y="4" width="22" height="5" rx="2" fill="#94a3b8" />
+      <rect x="36" y="4" width="52" height="5" rx="2" fill="#94a3b8" />
+      <rect x="105" y="4" width="30" height="5" rx="2" fill="#94a3b8" />
+      <rect x="148" y="4" width="30" height="5" rx="2" fill="#94a3b8" />
+    </g>
+
+    <!-- Ledger Rows -->
+    <g transform="translate(14, 58)">
+      <!-- Row 1 -->
+      <rect x="2" y="2" width="20" height="4" rx="2" fill="#cbd5e1" />
+      <rect x="36" y="2" width="46" height="4" rx="2" fill="#475569" />
+      <rect x="105" y="2" width="26" height="4" rx="2" fill="#059669" />
+      <rect x="150" y="2" width="24" height="4" rx="2" fill="#cbd5e1" />
+      <line x1="0" y1="12" x2="182" y2="12" stroke="#f1f5f9" stroke-width="1" />
+
+      <!-- Row 2 -->
+      <rect x="2" y="16" width="20" height="4" rx="2" fill="#cbd5e1" />
+      <rect x="36" y="16" width="56" height="4" rx="2" fill="#475569" />
+      <rect x="105" y="16" width="28" height="4" rx="2" fill="#cbd5e1" />
+      <rect x="150" y="16" width="26" height="4" rx="2" fill="#dc2626" />
+      <line x1="0" y1="26" x2="182" y2="26" stroke="#f1f5f9" stroke-width="1" />
+
+      <!-- Row 3 -->
+      <rect x="2" y="30" width="20" height="4" rx="2" fill="#cbd5e1" />
+      <rect x="36" y="30" width="40" height="4" rx="2" fill="#475569" />
+      <rect x="105" y="30" width="24" height="4" rx="2" fill="#059669" />
+      <rect x="150" y="30" width="20" height="4" rx="2" fill="#cbd5e1" />
+      <line x1="0" y1="40" x2="182" y2="40" stroke="#f1f5f9" stroke-width="1" />
+
+      <!-- Row 4 -->
+      <rect x="2" y="44" width="20" height="4" rx="2" fill="#cbd5e1" />
+      <rect x="36" y="44" width="60" height="4" rx="2" fill="#475569" />
+      <rect x="105" y="44" width="26" height="4" rx="2" fill="#cbd5e1" />
+      <rect x="150" y="44" width="28" height="4" rx="2" fill="#dc2626" />
+      <line x1="0" y1="54" x2="182" y2="54" stroke="#cbd5e1" stroke-width="1.2" />
+
+      <!-- Total Row -->
+      <rect x="36" y="60" width="34" height="5" rx="2" fill="#1e293b" />
+      <rect x="142" y="58" width="38" height="9" rx="3" fill="#d1fae5" />
+      <line x1="146" y1="62.5" x2="176" y2="62.5" stroke="#047857" stroke-width="2" stroke-linecap="round" />
+      <line x1="0" y1="72" x2="182" y2="72" stroke="#059669" stroke-width="2" />
+    </g>
+
+    <!-- Stamp / Audit Seal -->
+    <g transform="translate(142, 116)">
+      <circle cx="22" cy="22" r="20" fill="#fef2f2" stroke="#ef4444" stroke-width="1.8" stroke-dasharray="3 2" />
+      <circle cx="22" cy="22" r="16" fill="none" stroke="#ef4444" stroke-width="1" />
+      <path d="M14 22l5 5 11-10" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+  </g>
+
+  <!-- Digital Calculator (Right) -->
+  <g transform="translate(262, 32)">
+    <rect width="105" height="156" rx="10" fill="url(#calc-body)" stroke="#475569" stroke-width="1.2" filter="drop-shadow(0 10px 16px rgba(0,0,0,0.35))" />
+    <rect width="105" height="156" rx="10" fill="#ffffff" fill-opacity="0.03" />
+
+    <!-- Calculator Solar Panel & Brand -->
+    <rect x="12" y="12" width="36" height="10" rx="2" fill="#334155" />
+    <line x1="24" y1="12" x2="24" y2="22" stroke="#1e293b" stroke-width="1" />
+    <line x1="36" y1="12" x2="36" y2="22" stroke="#1e293b" stroke-width="1" />
+    <circle cx="90" cy="17" r="3" fill="#10b981" />
+
+    <!-- LCD Display -->
+    <rect x="12" y="28" width="81" height="26" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <rect x="14" y="30" width="77" height="22" rx="3" fill="#134e4a" />
+    <!-- Displayed Numbers (Segment bars representation) -->
+    <text x="86" y="46" font-family="monospace" font-size="12" font-weight="bold" fill="#34d399" text-anchor="end">284,750</text>
+
+    <!-- Keypad Grid (4 columns, 4 rows) -->
+    <g transform="translate(12, 62)">
+      <!-- Row 1: C, +/-, %, / -->
+      <rect x="0" y="0" width="17" height="16" rx="3" fill="#475569" />
+      <rect x="21" y="0" width="17" height="16" rx="3" fill="#475569" />
+      <rect x="42" y="0" width="17" height="16" rx="3" fill="#475569" />
+      <rect x="63" y="0" width="18" height="16" rx="3" fill="#f59e0b" />
+
+      <!-- Row 2: 7, 8, 9, * -->
+      <rect x="0" y="20" width="17" height="16" rx="3" fill="#334155" />
+      <rect x="21" y="20" width="17" height="16" rx="3" fill="#334155" />
+      <rect x="42" y="20" width="17" height="16" rx="3" fill="#334155" />
+      <rect x="63" y="20" width="18" height="16" rx="3" fill="#f59e0b" />
+
+      <!-- Row 3: 4, 5, 6, - -->
+      <rect x="0" y="40" width="17" height="16" rx="3" fill="#334155" />
+      <rect x="21" y="40" width="17" height="16" rx="3" fill="#334155" />
+      <rect x="42" y="40" width="17" height="16" rx="3" fill="#334155" />
+      <rect x="63" y="40" width="18" height="16" rx="3" fill="#f59e0b" />
+
+      <!-- Row 4: 1, 2, 3, + -->
+      <rect x="0" y="60" width="17" height="16" rx="3" fill="#334155" />
+      <rect x="21" y="60" width="17" height="16" rx="3" fill="#334155" />
+      <rect x="42" y="60" width="17" height="16" rx="3" fill="#334155" />
+      <rect x="63" y="60" width="18" height="24" rx="3" fill="#10b981" />
+      <!-- Plus sign -->
+      <path d="M72 68v8 M68 72h8" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+    </g>
+  </g>
+
+  <!-- Luxury Fountain Pen -->
+  <g transform="translate(236, 120) rotate(-35)">
+    <rect x="0" y="0" width="7" height="70" rx="3.5" fill="#1e293b" />
+    <rect x="0" y="20" width="7" height="4" fill="#fbbf24" />
+    <!-- Nib -->
+    <polygon points="0,0 7,0 3.5,-12" fill="#fbbf24" />
+    <line x1="3.5" y1="-12" x2="3.5" y2="-4" stroke="#1e293b" stroke-width="1" />
+  </g>
+</svg>

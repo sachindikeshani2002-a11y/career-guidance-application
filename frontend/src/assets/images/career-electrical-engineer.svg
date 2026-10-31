@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" fill="none" role="img" aria-label="Electrical and Electronic Engineer Illustration">
+  <defs>
+    <linearGradient id="ee-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#047857" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </linearGradient>
+    <linearGradient id="ee-pcb" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" />
+      <stop offset="100%" stop-color="#022c22" />
+    </linearGradient>
+    <linearGradient id="ee-chip" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="ee-copper" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="220" rx="12" fill="url(#ee-bg)" />
+  <circle cx="340" cy="40" r="85" fill="#ffffff" fill-opacity="0.05" />
+  <circle cx="60" cy="180" r="70" fill="#ffffff" fill-opacity="0.05" />
+
+  <!-- PCB Test bench & Electronic Board Window -->
+  <g transform="translate(45, 25)">
+    <rect width="310" height="170" rx="10" fill="url(#ee-pcb)" stroke="#34d399" stroke-width="1.2" stroke-opacity="0.4" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.3))" />
+
+    <!-- Header bar -->
+    <rect width="310" height="24" rx="10" fill="#011e17" />
+    <circle cx="16" cy="12" r="3.5" fill="#10b981" />
+    <circle cx="28" cy="12" r="3.5" fill="#34d399" />
+    <circle cx="40" cy="12" r="3.5" fill="#6ee7b7" />
+    <path d="M 60 12 L 130 12" stroke="#34d399" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.6" />
+
+    <!-- PCB Copper Routing Traces -->
+    <g stroke="url(#ee-copper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 30 50 L 50 50 L 65 65 L 90 65" />
+      <path d="M 30 75 L 45 75 L 55 85 L 90 85" />
+      <path d="M 30 105 L 55 105 L 70 120 L 90 120" />
+      <path d="M 30 135 L 75 135 L 90 120" />
+
+      <path d="M 170 65 L 190 65 L 205 50 L 225 50" />
+      <path d="M 170 85 L 195 85 L 205 95 L 225 95" />
+      <path d="M 170 105 L 185 105 L 200 120 L 225 120" />
+      <path d="M 170 125 L 200 125 L 215 140 L 225 140" />
+
+      <path d="M 115 50 L 115 35 L 140 35 L 140 50" />
+      <path d="M 130 140 L 130 155 L 160 155 L 175 140" />
+    </g>
+
+    <!-- Golden Vias (Pads) -->
+    <circle cx="30" cy="50" r="3" fill="#fbbf24" stroke="#78350f" stroke-width="0.8" />
+    <circle cx="30" cy="75" r="3" fill="#fbbf24" stroke="#78350f" stroke-width="0.8" />
+    <circle cx="30" cy="105" r="3" fill="#fbbf24" stroke="#78350f" stroke-width="0.8" />
+    <circle cx="30" cy="135" r="3" fill="#fbbf24" stroke="#78350f" stroke-width="0.8" />
+    <circle cx="65" cy="65" r="2.5" fill="#34d399" />
+    <circle cx="205" cy="50" r="2.5" fill="#34d399" />
+    <circle cx="200" cy="120" r="2.5" fill="#34d399" />
+
+    <!-- Center Integrated Circuit (IC / Microcontroller DIP) -->
+    <g transform="translate(90, 52)">
+      <rect x="0" y="0" width="80" height="88" rx="6" fill="url(#ee-chip)" stroke="#475569" stroke-width="1.2" />
+      <path d="M 32 0 C 32 6, 48 6, 48 0" fill="#0f172a" stroke="#475569" stroke-width="1" />
+      <circle cx="12" cy="12" r="3" fill="#10b981" />
+      <rect x="22" y="22" width="36" height="6" rx="2" fill="#334155" />
+      <rect x="22" y="34" width="28" height="4" rx="1.5" fill="#1e293b" />
+      <rect x="24" y="50" width="32" height="12" rx="2" fill="#064e3b" />
+
+      <!-- Left IC Pins -->
+      <rect x="-8" y="10" width="8" height="4" rx="1" fill="#cbd5e1" stroke="#64748b" stroke-width="0.6" />
+      <rect x="-8" y="24" width="8" height="4" rx="1" fill="#cbd5e1" stroke="#64748b" stroke-width="0.6" />
+      <rect x="-8" y="38" width="8" height="4" rx="1" fill="#cbd5e1" stroke="#64748b" stroke-width="0.6" />
+      <rect x="-8" y="52" width="8" height="4" rx="1" fill="#cbd5e1" stroke="#64748b" stroke-width="0.6" />
+      <rect x="-8" y="66" width="8" height="4" rx="1" fill="#cbd5e1" stroke="#64748b" stroke-width="0.6" />
+
+      <!-- Right IC Pins -->
+      <rect x="80" y="10" width="8" height="4" rx="1" fill="#cbd5e1" stroke="#64748b" stroke-width="0.6" />
+      <rect x="80" y="24" width="8" height="4" rx="1" fill="#cbd5e1" stroke="#64748b" stroke-width="0.6" />
+      <rect x="80" y="38" width="8" height="4" rx="1" fill="#cbd5e1" stroke="#64748b" stroke-width="0.6" />
+      <rect x="80" y="52" width="8" height="4" rx="1" fill="#cbd5e1" stroke="#64748b" stroke-width="0.6" />
+      <rect x="80" y="66" width="8" height="4" rx="1" fill="#cbd5e1" stroke="#64748b" stroke-width="0.6" />
+    </g>
+
+    <!-- Electrolytic Can Capacitor (Top Right) -->
+    <g transform="translate(200, 36)">
+      <circle cx="14" cy="14" r="12" fill="#0284c7" stroke="#38bdf8" stroke-width="1.2" />
+      <path d="M 6 4 L 6 24" stroke="#ffffff" stroke-width="2" />
+      <circle cx="14" cy="14" r="6" fill="#0369a1" />
+    </g>
+
+    <!-- Resistor with Color Bands (Bottom Left) -->
+    <g transform="translate(32, 114)">
+      <rect x="6" y="2" width="26" height="8" rx="3" fill="#fef3c7" stroke="#d97706" stroke-width="0.8" />
+      <line x1="0" y1="6" x2="6" y2="6" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="32" y1="6" x2="38" y2="6" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="11" y1="2" x2="11" y2="10" stroke="#b91c1c" stroke-width="2" />
+      <line x1="16" y1="2" x2="16" y2="10" stroke="#f59e0b" stroke-width="2" />
+      <line x1="21" y1="2" x2="21" y2="10" stroke="#047857" stroke-width="2" />
+      <line x1="27" y1="2" x2="27" y2="10" stroke="#eab308" stroke-width="1.5" />
+    </g>
+
+    <!-- Oscilloscope Signal Monitor (Right Panel) -->
+    <g transform="translate(225, 42)">
+      <rect x="0" y="0" width="70" height="106" rx="6" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+      <rect x="4" y="4" width="62" height="66" rx="4" fill="#022c22" stroke="#059669" stroke-width="0.8" />
+      <line x1="4" y1="37" x2="66" y2="37" stroke="#047857" stroke-width="0.5" stroke-dasharray="2 2" />
+      <line x1="35" y1="4" x2="35" y2="70" stroke="#047857" stroke-width="0.5" stroke-dasharray="2 2" />
+      <path d="M 6 37 Q 13 14, 20 37 T 35 37 T 50 37 T 64 37" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" />
+      <circle cx="16" cy="84" r="5" fill="#334155" stroke="#64748b" stroke-width="1" />
+      <circle cx="35" cy="84" r="5" fill="#334155" stroke="#64748b" stroke-width="1" />
+      <circle cx="54" cy="84" r="5" fill="#334155" stroke="#64748b" stroke-width="1" />
+      <circle cx="16" cy="98" r="2.5" fill="#10b981" />
+      <circle cx="26" cy="98" r="2.5" fill="#f59e0b" />
+    </g>
+  </g>
+</svg>

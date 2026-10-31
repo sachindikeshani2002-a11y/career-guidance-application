@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" fill="none" role="img" aria-label="Project Coordinator Illustration">
+  <defs>
+    <linearGradient id="pc-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4338ca" />
+      <stop offset="100%" stop-color="#312e81" />
+    </linearGradient>
+    <linearGradient id="pc-card" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f8fafc" />
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="220" rx="12" fill="url(#pc-bg)" />
+  <circle cx="350" cy="50" r="80" fill="#ffffff" fill-opacity="0.06" />
+  <circle cx="50" cy="180" r="70" fill="#ffffff" fill-opacity="0.05" />
+
+  <!-- Task Board Window -->
+  <g transform="translate(45, 25)">
+    <rect width="310" height="170" rx="10" fill="url(#pc-card)" stroke="#818cf8" stroke-width="1.2" stroke-opacity="0.4" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.25))" />
+
+    <!-- Header -->
+    <rect width="310" height="26" rx="10" fill="#f1f5f9" />
+    <circle cx="16" cy="13" r="3.5" fill="#4f46e5" />
+    <rect x="28" y="11" width="90" height="4" rx="2" fill="#1e293b" />
+    <rect x="236" y="7" width="60" height="12" rx="3" fill="#e0e7ff" />
+    <circle cx="246" cy="13" r="2.5" fill="#4338ca" />
+    <line x1="254" y1="13" x2="288" y2="13" stroke="#4338ca" stroke-width="1.5" stroke-linecap="round" />
+
+    <!-- Top Gantt Timeline Bar -->
+    <g transform="translate(18, 34)">
+      <rect x="0" y="0" width="274" height="22" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+      <!-- Milestone 1 -->
+      <rect x="6" y="5" width="60" height="12" rx="3" fill="#10b981" />
+      <line x1="14" y1="11" x2="56" y2="11" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+      <!-- Milestone 2 -->
+      <rect x="72" y="5" width="95" height="12" rx="3" fill="#6366f1" />
+      <line x1="80" y1="11" x2="157" y2="11" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+      <!-- Milestone 3 -->
+      <rect x="173" y="5" width="65" height="12" rx="3" fill="#e2e8f0" />
+      <line x1="181" y1="11" x2="228" y2="11" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+      <!-- Milestone Diamond Marker -->
+      <polygon points="252,5 258,11 252,17 246,11" fill="#f59e0b" />
+    </g>
+
+    <!-- 3-Column Kanban Board -->
+    <g transform="translate(18, 64)">
+      <!-- Column 1: Backlog -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="86" height="96" rx="5" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+        <line x1="8" y1="10" x2="38" y2="10" stroke="#64748b" stroke-width="2" stroke-linecap="round" />
+        <!-- Task Card 1 -->
+        <rect x="6" y="18" width="74" height="32" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.8" />
+        <rect x="10" y="24" width="45" height="3" rx="1.5" fill="#334155" />
+        <rect x="10" y="30" width="30" height="3" rx="1.5" fill="#94a3b8" />
+        <rect x="10" y="38" width="22" height="6" rx="2" fill="#fef3c7" />
+        <!-- Task Card 2 -->
+        <rect x="6" y="54" width="74" height="28" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.8" />
+        <rect x="10" y="60" width="40" height="3" rx="1.5" fill="#334155" />
+        <rect x="10" y="66" width="25" height="3" rx="1.5" fill="#94a3b8" />
+        <circle cx="68" cy="68" r="4.5" fill="#e0e7ff" stroke="#6366f1" stroke-width="1" />
+      </g>
+
+      <!-- Column 2: In Progress -->
+      <g transform="translate(94, 0)">
+        <rect x="0" y="0" width="86" height="96" rx="5" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1" />
+        <line x1="8" y1="10" x2="48" y2="10" stroke="#4338ca" stroke-width="2" stroke-linecap="round" />
+        <!-- Active Task Card -->
+        <rect x="6" y="18" width="74" height="44" rx="4" fill="#ffffff" stroke="#818cf8" stroke-width="1" />
+        <rect x="10" y="24" width="52" height="4" rx="2" fill="#312e81" />
+        <rect x="10" y="31" width="36" height="3" rx="1.5" fill="#64748b" />
+        <rect x="10" y="40" width="54" height="4" rx="2" fill="#e2e8f0" />
+        <rect x="10" y="40" width="38" height="4" rx="2" fill="#6366f1" />
+        <circle cx="68" cy="50" r="4.5" fill="#fbcfe8" stroke="#db2777" stroke-width="1" />
+        <!-- Secondary card -->
+        <rect x="6" y="66" width="74" height="24" rx="4" fill="#ffffff" stroke="#e0e7ff" stroke-width="0.8" />
+        <rect x="10" y="73" width="42" height="3" rx="1.5" fill="#334155" />
+      </g>
+
+      <!-- Column 3: Done -->
+      <g transform="translate(188, 0)">
+        <rect x="0" y="0" width="86" height="96" rx="5" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1" />
+        <line x1="8" y1="10" x2="40" y2="10" stroke="#15803d" stroke-width="2" stroke-linecap="round" />
+        <!-- Completed Card 1 -->
+        <rect x="6" y="18" width="74" height="32" rx="4" fill="#ffffff" stroke="#86efac" stroke-width="0.8" />
+        <rect x="10" y="24" width="48" height="3" rx="1.5" fill="#166534" />
+        <path d="M 64 24 L 67 27 L 72 21" fill="none" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" />
+        <rect x="10" y="32" width="28" height="3" rx="1.5" fill="#86efac" />
+        <!-- Completed Card 2 -->
+        <rect x="6" y="54" width="74" height="32" rx="4" fill="#ffffff" stroke="#86efac" stroke-width="0.8" />
+        <rect x="10" y="60" width="44" height="3" rx="1.5" fill="#166534" />
+        <path d="M 64 60 L 67 63 L 72 57" fill="none" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" />
+        <rect x="10" y="68" width="32" height="3" rx="1.5" fill="#86efac" />
+      </g>
+    </g>
+  </g>
+</svg>

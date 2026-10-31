@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" fill="none" role="img" aria-label="Manufacturing Engineer Illustration">
+  <defs>
+    <linearGradient id="mfg-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c2410c" />
+      <stop offset="100%" stop-color="#9a3412" />
+    </linearGradient>
+    <linearGradient id="mfg-card" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="mfg-arm" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f97316" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+    <linearGradient id="mfg-steel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#64748b" />
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="220" rx="12" fill="url(#mfg-bg)" />
+  <circle cx="340" cy="50" r="85" fill="#ffffff" fill-opacity="0.06" />
+  <circle cx="50" cy="180" r="75" fill="#ffffff" fill-opacity="0.05" />
+
+  <!-- Industrial Automated Assembly Plant Window -->
+  <g transform="translate(45, 25)">
+    <rect width="310" height="170" rx="10" fill="url(#mfg-card)" stroke="#f97316" stroke-width="1.2" stroke-opacity="0.4" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.3))" />
+
+    <!-- Control Header -->
+    <rect width="310" height="24" rx="10" fill="#0b1120" />
+    <circle cx="16" cy="12" r="3.5" fill="#f97316" />
+    <circle cx="28" cy="12" r="3.5" fill="#fb923c" />
+    <circle cx="40" cy="12" r="3.5" fill="#fed7aa" />
+    <circle cx="288" cy="12" r="4" fill="#22c55e" />
+
+    <!-- Industrial Articulated Robotic Arm (Left) -->
+    <g transform="translate(40, 36)">
+      <!-- Heavy Base Plinth -->
+      <rect x="15" y="98" width="50" height="16" rx="3" fill="#334155" stroke="#64748b" stroke-width="1.2" />
+      <circle cx="40" cy="98" r="14" fill="#1e293b" stroke="#f97316" stroke-width="1.5" />
+      <circle cx="40" cy="98" r="6" fill="#f8fafc" />
+
+      <!-- Lower Arm Segment (J1 to J2) -->
+      <path d="M 34 94 L 46 44 L 62 48 L 48 98 Z" fill="url(#mfg-arm)" stroke="#c2410c" stroke-width="1" />
+      <!-- Joint 2 Elbow Pivot -->
+      <circle cx="54" cy="46" r="10" fill="url(#mfg-steel)" stroke="#cbd5e1" stroke-width="1.5" />
+      <circle cx="54" cy="46" r="4" fill="#0f172a" />
+
+      <!-- Upper Forearm Segment (J2 to J3) -->
+      <path d="M 50 42 L 105 52 L 103 64 L 54 52 Z" fill="url(#mfg-arm)" stroke="#c2410c" stroke-width="1" />
+      <!-- Wrist Joint (J3) -->
+      <circle cx="104" cy="58" r="7" fill="url(#mfg-steel)" stroke="#cbd5e1" stroke-width="1.2" />
+      <circle cx="104" cy="58" r="3" fill="#0f172a" />
+
+      <!-- Tool Flange & Precision Gripper Tool -->
+      <g transform="translate(104, 58) rotate(45)">
+        <rect x="0" y="-4" width="16" height="8" rx="2" fill="#334155" stroke="#cbd5e1" stroke-width="0.8" />
+        <path d="M 16 -6 L 26 -6 L 26 -2 L 20 -2 L 20 2 L 26 2 L 26 6 L 16 6 Z" fill="#f59e0b" stroke="#b45309" stroke-width="0.8" />
+        <line x1="26" y1="0" x2="65" y2="0" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3 2" />
+        <circle cx="65" cy="0" r="2" fill="#38bdf8" />
+      </g>
+    </g>
+
+    <!-- Automated Conveyor Belt System (Across Bottom) -->
+    <g transform="translate(110, 114)">
+      <rect x="0" y="16" width="185" height="12" rx="2" fill="#1e293b" stroke="#64748b" stroke-width="1" />
+      <!-- Conveyor Rollers -->
+      <circle cx="15" cy="22" r="5" fill="#475569" stroke="#94a3b8" stroke-width="1" />
+      <circle cx="45" cy="22" r="5" fill="#475569" stroke="#94a3b8" stroke-width="1" />
+      <circle cx="75" cy="22" r="5" fill="#475569" stroke="#94a3b8" stroke-width="1" />
+      <circle cx="105" cy="22" r="5" fill="#475569" stroke="#94a3b8" stroke-width="1" />
+      <circle cx="135" cy="22" r="5" fill="#475569" stroke="#94a3b8" stroke-width="1" />
+      <circle cx="165" cy="22" r="5" fill="#475569" stroke="#94a3b8" stroke-width="1" />
+
+      <!-- Support Legs -->
+      <rect x="25" y="28" width="8" height="18" fill="#334155" />
+      <rect x="145" y="28" width="8" height="18" fill="#334155" />
+
+      <rect x="0" y="12" width="185" height="4" fill="#0f172a" />
+
+      <!-- Workpieces on Conveyor -->
+      <g transform="translate(18, -4)">
+        <rect x="0" y="0" width="24" height="16" rx="3" fill="#38bdf8" stroke="#0284c7" stroke-width="1" />
+        <circle cx="12" cy="8" r="4" fill="#ffffff" />
+      </g>
+      <g transform="translate(76, -4)">
+        <rect x="0" y="0" width="24" height="16" rx="3" fill="#f59e0b" stroke="#d97706" stroke-width="1" />
+        <circle cx="12" cy="8" r="4" fill="#ffffff" />
+      </g>
+      <g transform="translate(134, -4)">
+        <rect x="0" y="0" width="24" height="16" rx="3" fill="#22c55e" stroke="#16a34a" stroke-width="1" />
+        <path d="M 8 8 L 11 11 L 16 5" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+      </g>
+    </g>
+
+    <!-- Inspection Sensor Array & Quality Dashboard (Top Right) -->
+    <g transform="translate(195, 36)">
+      <rect x="0" y="0" width="100" height="54" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <rect x="10" y="12" width="38" height="28" rx="4" fill="#064e3b" stroke="#059669" stroke-width="0.8" />
+      <circle cx="29" cy="26" r="6" fill="#10b981" />
+
+      <rect x="54" y="12" width="36" height="28" rx="4" fill="#1e293b" stroke="#475569" stroke-width="0.8" />
+      <line x1="60" y1="20" x2="84" y2="20" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" />
+      <line x1="60" y1="26" x2="78" y2="26" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" />
+      <line x1="60" y1="32" x2="82" y2="32" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

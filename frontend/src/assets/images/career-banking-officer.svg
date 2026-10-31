@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" fill="none" role="img" aria-label="Banking Officer Illustration">
+  <defs>
+    <linearGradient id="bo-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="bo-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fcd34d" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <linearGradient id="bo-card" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f8fafc" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="220" rx="12" fill="url(#bo-bg)" />
+  <circle cx="350" cy="40" r="75" fill="#ffffff" fill-opacity="0.05" />
+  <circle cx="50" cy="180" r="65" fill="#ffffff" fill-opacity="0.05" />
+
+  <!-- Classical Bank Architecture (Left) -->
+  <g transform="translate(42, 28)">
+    <!-- Base / Steps -->
+    <rect x="0" y="148" width="160" height="12" rx="2" fill="#e2e8f0" />
+    <rect x="8" y="140" width="144" height="8" rx="2" fill="#cbd5e1" />
+    <rect x="16" y="134" width="128" height="6" rx="1.5" fill="#94a3b8" />
+
+    <!-- 4 Classical Pillars -->
+    <!-- Pillar 1 -->
+    <rect x="22" y="44" width="16" height="90" rx="2" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+    <rect x="19" y="40" width="22" height="5" rx="1" fill="#e2e8f0" />
+    <rect x="19" y="130" width="22" height="5" rx="1" fill="#e2e8f0" />
+    <line x1="26" y1="48" x2="26" y2="128" stroke="#e2e8f0" stroke-width="1" />
+    <line x1="33" y1="48" x2="33" y2="128" stroke="#e2e8f0" stroke-width="1" />
+
+    <!-- Pillar 2 -->
+    <rect x="52" y="44" width="16" height="90" rx="2" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+    <rect x="49" y="40" width="22" height="5" rx="1" fill="#e2e8f0" />
+    <rect x="49" y="130" width="22" height="5" rx="1" fill="#e2e8f0" />
+    <line x1="56" y1="48" x2="56" y2="128" stroke="#e2e8f0" stroke-width="1" />
+    <line x1="63" y1="48" x2="63" y2="128" stroke="#e2e8f0" stroke-width="1" />
+
+    <!-- Pillar 3 -->
+    <rect x="92" y="44" width="16" height="90" rx="2" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+    <rect x="89" y="40" width="22" height="5" rx="1" fill="#e2e8f0" />
+    <rect x="89" y="130" width="22" height="5" rx="1" fill="#e2e8f0" />
+    <line x1="96" y1="48" x2="96" y2="128" stroke="#e2e8f0" stroke-width="1" />
+    <line x1="103" y1="48" x2="103" y2="128" stroke="#e2e8f0" stroke-width="1" />
+
+    <!-- Pillar 4 -->
+    <rect x="122" y="44" width="16" height="90" rx="2" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+    <rect x="119" y="40" width="22" height="5" rx="1" fill="#e2e8f0" />
+    <rect x="119" y="130" width="22" height="5" rx="1" fill="#e2e8f0" />
+    <line x1="126" y1="48" x2="126" y2="128" stroke="#e2e8f0" stroke-width="1" />
+    <line x1="133" y1="48" x2="133" y2="128" stroke="#e2e8f0" stroke-width="1" />
+
+    <!-- Architrave / Entablature beam -->
+    <rect x="14" y="30" width="132" height="11" rx="2" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1" />
+
+    <!-- Pediment (Triangular roof) -->
+    <polygon points="80,2 10,30 150,30" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2" />
+
+    <!-- Bank Crest / Coin Medallion in Pediment -->
+    <circle cx="80" cy="20" r="6.5" fill="url(#bo-gold)" stroke="#b45309" stroke-width="1" />
+    <text x="80" y="23" font-family="sans-serif" font-size="7" font-weight="bold" fill="#78350f" text-anchor="middle">$</text>
+
+    <!-- Bank Doorway in center -->
+    <rect x="70" y="70" width="20" height="64" rx="10" fill="#1e293b" />
+    <rect x="73" y="73" width="14" height="61" rx="8" fill="#334155" />
+    <circle cx="82" cy="100" r="1.5" fill="#f59e0b" />
+  </g>
+
+  <!-- Right Side: Safe Vault, Digital Transactions & Security Shield -->
+  <g transform="translate(225, 30)">
+    <!-- Main Transaction Card -->
+    <rect width="145" height="160" rx="10" fill="url(#bo-card)" stroke="#60a5fa" stroke-width="1.2" stroke-opacity="0.5" filter="drop-shadow(0 10px 18px rgba(0,0,0,0.3))" />
+
+    <!-- Card Header -->
+    <rect width="145" height="24" rx="10" fill="#eff6ff" />
+    <circle cx="14" cy="12" r="3" fill="#2563eb" />
+    <line x1="24" y1="12" x2="84" y2="12" stroke="#1e40af" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Vault / Safe Wheel (Top Portion) -->
+    <g transform="translate(72, 62)">
+      <!-- Outer Rim -->
+      <circle cx="0" cy="0" r="28" fill="#1e293b" stroke="#64748b" stroke-width="2" />
+      <circle cx="0" cy="0" r="23" fill="#0f172a" stroke="#475569" stroke-width="1" />
+      <circle cx="0" cy="0" r="12" fill="#334155" stroke="#94a3b8" stroke-width="1.5" />
+      <!-- Spoke handles -->
+      <line x1="0" y1="-21" x2="0" y2="21" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" />
+      <line x1="-21" y1="0" x2="21" y2="0" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" />
+      <line x1="-15" y1="-15" x2="15" y2="15" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" />
+      <line x1="-15" y1="15" x2="15" y2="-15" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" />
+      <!-- Center Hub -->
+      <circle cx="0" cy="0" r="6" fill="url(#bo-gold)" stroke="#b45309" stroke-width="1" />
+    </g>
+
+    <!-- Fast Currency Transfer Flow (Below Vault) -->
+    <g transform="translate(18, 102)">
+      <!-- Transfer Arrow Ribbon -->
+      <rect width="109" height="20" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1" />
+      <!-- Transfer Icon -->
+      <path d="M12 10h22 M30 6l4 4-4 4" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="56" y="14" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#15803d">TRANSFER</text>
+      <circle cx="98" cy="10" r="3.5" fill="#16a34a" />
+      <path d="M96.5 10l1 1 2-2" stroke="#ffffff" stroke-width="1" stroke-linecap="round" />
+    </g>
+
+    <!-- Security Guarantee Badge (Bottom) -->
+    <g transform="translate(18, 128)">
+      <rect width="109" height="20" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+      <!-- Shield -->
+      <path d="M14 5l6-2 6 2v4c0 3.5-3 6.5-6 8-3-1.5-6-4.5-6-8V5z" fill="#3b82f6" />
+      <path d="M18 9l1.5 1.5 3-3" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+      <line x1="30" y1="10" x2="98" y2="10" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

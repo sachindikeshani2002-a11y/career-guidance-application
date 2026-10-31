@@ -510,7 +510,9 @@ export default function Dashboard({ token, onLogout }) {
                 token={token}
                 onLogout={onLogout}
                 user={user}
+                targetCareer={targetCareer}
                 onSelectCareer={handleSelectCareer}
+                onClearCareer={handleClearCareer}
               />
             </fieldset>
           </div>
