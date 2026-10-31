@@ -473,26 +473,50 @@ export default function SkillDevelopment({
             <p className="cp-empty-text">No courses have been added yet.</p>
           )}
 
-          {targetCareer && careerCourses.length === 0 && (
+          {targetCareer && careerCourses.length === 0 && missingCareerSkills.length === 0 && (
+            <div className="cp-no-courses-notice cp-profile-matched-notice" role="status">
+              <span className="cp-notice-icon" aria-hidden="true">
+                ✓
+              </span>
+              <div>
+                <h4>All Foundational Skills Recorded</h4>
+                <p>
+                  Your profile already includes all foundational skills listed for{" "}
+                  <strong>{targetCareer.title}</strong>.
+                </p>
+                <p className="cp-subtle-text" style={{ margin: "6px 0 12px" }}>
+                  * Note: Profile skill alignment reflects documented curriculum skills.
+                  It does not establish chartered professional status, statutory licensure,
+                  or senior industry mastery.
+                </p>
+                <button
+                  type="button"
+                  className="cp-btn-secondary cp-btn-sm"
+                  onClick={() => {
+                    resetFilters();
+                    onClearCareer();
+                  }}
+                >
+                  Clear Target Career to Browse All Courses
+                </button>
+              </div>
+            </div>
+          )}
+
+          {targetCareer && careerCourses.length === 0 && missingCareerSkills.length > 0 && (
             <div className="cp-no-courses-notice" role="status">
               <span className="cp-notice-icon" aria-hidden="true">
                 📚
               </span>
               <div>
-                <h4>Relevant Courses Not Yet Available</h4>
+                <h4>Curriculum Offerings in Development</h4>
                 <p>
-                  There are currently no courses in the active university catalog
-                  teaching the skills required for{" "}
-                  <strong>{targetCareer.title}</strong>
-                  {missingCareerSkills.length > 0
-                    ? ` (${missingCareerSkills.join(", ")})`
-                    : ""}
-                  .
+                  Your target career <strong>{targetCareer.title}</strong> requires specialized skills (
+                  {missingCareerSkills.join(", ")}) that are not currently addressed by courses in the active catalog.
                 </p>
                 <p>
-                  Curriculum offerings for {targetCareer.field || "this field"}{" "}
-                  are currently being planned. You can clear your active target
-                  career to browse general foundational courses.
+                  Curriculum offerings for these specialized skills are currently being planned.
+                  You can clear your active target career to browse general foundational courses.
                 </p>
                 <button
                   type="button"

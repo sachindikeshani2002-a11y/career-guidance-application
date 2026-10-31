@@ -158,6 +158,8 @@ export function getCareerImage(title) {
  */
 export function getCourseImage(title) {
   const clean = String(title || "").toLowerCase();
+
+  // Baseline Courses
   if (clean.includes("javascript")) {
     return courseJs;
   }
@@ -186,5 +188,70 @@ export function getCourseImage(title) {
   if (clean.includes("user research") || clean.includes("interview")) {
     return courseUserResearch;
   }
+  if (clean.includes("cloud")) {
+    return careerComputerEngineer;
+  }
+
+  // Engineering Courses
+  if (clean.includes("computer-aided design") || clean.includes("drafting") || clean.includes("cad")) {
+    return careerCivilEngineer;
+  }
+  if (clean.includes("structural mechanics") || clean.includes("strength of materials")) {
+    return careerCivilEngineer;
+  }
+  if (clean.includes("thermodynamics") || clean.includes("fluid mechanics")) {
+    return careerMechanicalEngineer;
+  }
+  if (clean.includes("electric circuit") || clean.includes("microcontroller")) {
+    return careerElectricalEngineer;
+  }
+  if (clean.includes("embedded systems") || clean.includes("programming and c")) {
+    return careerComputerEngineer;
+  }
+  if (clean.includes("digital logic") || clean.includes("computer architecture")) {
+    return careerComputerEngineer;
+  }
+  if (clean.includes("lean manufacturing") || clean.includes("process engineering")) {
+    return careerManufacturingEngineer;
+  }
+
+  // IT & Cybersecurity Courses
+  if (clean.includes("network defense") || clean.includes("linux fundamentals")) {
+    return careerCybersecurityAnalyst;
+  }
+  if (clean.includes("security operations") || clean.includes("incident handling")) {
+    return careerCybersecurityAnalyst;
+  }
+
+  // Business & Management Courses
+  if (clean.includes("agile methodologies") || clean.includes("project coordination")) {
+    return careerProjectCoordinator;
+  }
+  if (clean.includes("business analysis") || clean.includes("process modeling")) {
+    return careerBusinessAnalyst;
+  }
+  if (clean.includes("human resources") || clean.includes("hr management")) {
+    return careerHrExecutive;
+  }
+
+  // Finance & Accounting Courses
+  if (clean.includes("financial accounting") || clean.includes("bookkeeping")) {
+    return careerAccountant;
+  }
+  if (clean.includes("corporate financial") || clean.includes("financial modeling")) {
+    return careerFinancialAnalyst;
+  }
+  if (clean.includes("commercial banking") || clean.includes("credit analysis")) {
+    return careerBankingOfficer;
+  }
+
+  // Marketing & Media Courses
+  if (clean.includes("digital marketing") || clean.includes("web analytics")) {
+    return careerDigitalMarketing;
+  }
+  if (clean.includes("content strategy") || clean.includes("brand communications")) {
+    return careerContentStrategist;
+  }
+
   return courseDefault;
 }
